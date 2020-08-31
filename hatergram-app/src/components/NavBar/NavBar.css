@@ -1,0 +1,43 @@
+:root{
+    --logo-color: #2a363b;
+    --form-main-color: #acdbdf;
+    --text-color: #eb6678;
+}
+
+.navbar{
+    width:100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--form-main-color);
+    border-bottom: 1px solid rgb(25,15,84,0.5)
+
+}
+.navbar__img{
+    object-fit: contain;
+}
+.navbar__links{
+    display:flex;
+    align-items: center;
+    
+    
+
+}
+#link{
+    padding:10px 15px;
+    text-decoration:none;
+    color: var(--logo-color);
+    font-weight: bold;
+    
+    
+}
+#link:visited{
+    color: var(--logo-color)
+}
+
+#link:hover{
+    color:white;
+    background: var(--text-color);
+    transition: 0.2s ease
+
+}
+

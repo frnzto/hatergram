@@ -1,0 +1,129 @@
+:root{
+    --logo-color: #2a363b;
+    --form-main-color: #acdbdf;
+    --text-color: #eb6678;
+}
+
+.signup__container{
+    display:flex;
+    width:65%;
+    max-width:600px;
+    margin: 150px auto 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border:1px solid var(--form-main-color);
+    border-radius: 15px;;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.2);
+    position:relative
+
+}
+
+.signup__header{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    background: var(--form-main-color);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    height: 100px;
+}
+.signup__header img{
+    width:200px;
+    object-fit: contain;
+}
+.signup__form{
+    width:80%;
+    padding: 20px 0;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+    overflow: hidden;
+}
+.signup__fields{
+    width:100%;
+    position:relative;
+    color:var(--text-color);
+    margin-bottom:20px;
+    
+    
+}
+.signup__input{
+    width:100%;
+    height:100%;
+    padding-top:20px;
+    border:none;
+    outline:none;
+    font-size: 20px;
+
+}
+
+.signup__input:focus{
+    outline:none
+}
+.signup__input:focus + .signup__label span{
+    color: var(--form-main-color);
+    font-size:10px;
+    transform: translateY(-150%);
+    transition: 0.3s ease
+}
+
+.signup__label{
+    position: absolute;
+    bottom:0;
+    left:0;
+    border-bottom:2px solid var(--text-color);
+    width:100%;
+    height:100%;
+    pointer-events: none;
+    
+    
+}
+.signup__label span{
+    position: absolute;
+    bottom: 5px;
+    left: 0px;
+    transition: all 0.3s ease
+}
+.signup__label::after{
+    content:"";
+    position: absolute;
+    left: 0px;
+    bottom:-2px;
+    width:100%;
+    height:100%;
+    border-bottom:3px solid var(--form-main-color);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+.signup__input:focus + .signup__label span, .signup__input:valid + .signup__label span{
+    transform: translateY(-150%);
+    font-size:14px;
+    color: var(--form-main-color)
+}
+.signup__input:focus + .signup__label::after, .signup__input:valid + .signup__label::after {
+    transform:translateX(0%)
+}
+.signup__input:hover + .signup__label span, .signup__input:hover + .signup__label{
+    color:var(--form-main-color);
+}
+
+.signup__button{
+    width:100%;
+    background-color: var(--form-main-color);
+    border:none;
+    padding: 20px 0;
+    color:white;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    font-size:30px;
+}
+
+.signup__button:hover{
+    background-color: var(--text-color);
+    color:var(--logo-color);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
