@@ -49,11 +49,11 @@ function Login() {
                 <div>{errors}</div>
                 <div className='login__fields'>
                     <input name="email" className="login__input" type="email" required onChange={e=> setEmail(e.target.value)} />
-                    <label for="email"className="login__label"><span>Email</span></label>
+                    <label htmlFor="email"className="login__label"><span>Email</span></label>
                 </div>
                 <div className="login__fields">
                     <input name="password" className="login__input" type="password" onChange={e=> setPassword(e.target.value)} required/>
-                    <label for="password" className="login__label"><span>Password</span></label>
+                    <label htmlFor="password" className="login__label"><span>Password</span></label>
                 </div>
             </form>
                 <button className="login__button" onClick={handleLogin} >Log In</button> 

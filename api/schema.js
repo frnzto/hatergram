@@ -58,7 +58,7 @@ const PostType = new GraphQLObjectType({
                return post.id
             }
         },
-        title:{
+        content:{
             type:GraphQLString,
             resolve(post){
                 return post.title
@@ -119,6 +119,23 @@ const Mutation = new GraphQLObjectType({
                 req.logout()
                 return user
             }
+        },
+        createPost : {
+            type: PostType,
+            args: {
+                caption : {type: GraphQLString},
+                image: {type:GraphQLString}
+            },
+            resolve(root, {caption, image}, req){
+                if(!req.user){throw new Error("Please log in")}
+                return sequelize.models.post.create({ 
+                    caption: caption,
+                    image:image,
+                    userId: req.user.id
+                 })
+
+            }
+
         }
     })
 })

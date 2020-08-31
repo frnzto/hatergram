@@ -34,15 +34,15 @@ function CreateUser() {
                 <div>{errors}</div>
                 <div className='signup__fields'>
                     <input name="username" className="signup__input" type="text" required onChange={e=> setEmail(e.target.value)} />
-                    <label for="username"className="signup__label"><span>Username</span></label>
+                    <label htmlFor="username"className="signup__label"><span>Username</span></label>
                 </div>
                 <div className='signup__fields'>
                     <input name="email" className="signup__input" type="email" required onChange={e=> setEmail(e.target.value)} />
-                    <label for="email"className="signup__label"><span>Email</span></label>
+                    <label htmlFor="email"className="signup__label"><span>Email</span></label>
                 </div>
                 <div className="signup__fields">
                     <input name="password" className="signup__input" type="password" onChange={e=> setPassword(e.target.value)} required/>
-                    <label for="password" className="signup__label"><span>Password</span></label>
+                    <label htmlFor="password" className="signup__label"><span>Password</span></label>
                 </div>
             </form>
                 <button className="signup__button" onClick={handleSubmit} >Sign Up</button> 

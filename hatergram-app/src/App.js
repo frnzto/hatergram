@@ -7,6 +7,9 @@ import Logout from "./components/Logout/Logout"
 import { Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Post from './components/Post/Post';
+import CreatePost from './components/CreatePost/CreatePost';
+
+
 const GetPosts= gql`
     query GetPosts {
       users{
@@ -25,6 +28,7 @@ function App() {
 
       <div className="App">
         <NavBar/>
+        <Post/>
         <Post/>
         <Logout />
         <Switch>
