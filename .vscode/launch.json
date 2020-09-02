@@ -5,13 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+
+            "cwd":"${workspaceFolder}\\api",
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "babel-node debug",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\api\\server.js"
+            "program": "${workspaceFolder}\\api\\server.js",
+            "runtimeExecutable": "${workspaceFolder}\\api\\node_modules\\.bin\\babel-node",
+            "runtimeArgs": [
+                "--nolazy"
+            ]
         }
     ]
 }

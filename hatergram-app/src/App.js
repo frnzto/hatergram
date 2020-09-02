@@ -1,42 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { gql, useQuery } from '@apollo/client'
+import { useQuery} from '@apollo/client'
 import Login from "./components/LogIn/Login"
 import SignUp from "./components/SignUp/SignUp"
-import Logout from "./components/Logout/Logout"
 import { Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
-import Post from './components/Post/Post';
-import CreatePost from './components/CreatePost/CreatePost';
+import Posts from './components/Posts/Posts';
+import {USER} from "./graphql/queries"
+import UserInfo from './components/UserInfo/UserInfo';
 
-
-const GetPosts= gql`
-    query GetPosts {
-      users{
-        username,
-      
-        
-      }
-    }
-  
-  `
 
 
 function App() {
-  
-  return (
+  const {loading, error, data}= useQuery(USER)
+  let user= null
 
-      <div className="App">
-        <NavBar/>
-        <Post/>
-        <Post/>
-        <Logout />
-        <Switch>
-          <Route exact path="/signup" component={SignUp}/> 
-          <Route exact path="/login" component={Login}/>
-        </Switch>
-      </div>
-  );
+  if(loading){return <div>Loading...</div>}
+  if(error){return <div>{error}</div>}
+  if(data.user === null){
+    user=null
+    console.log(user)
+    return (
+    <div className="App">
+      <NavBar user={user}/>
+      <Switch>
+        <Route exact path="/signup" component={SignUp}/> 
+        <Route exact path="/login" component={Login}/>
+        <Route exact path="/users/:id" render={(props)=>{
+          return <UserInfo {...props} user={user}/>
+        }}/>
+      </Switch>
+    </div>
+  )}
+  if(data.user != null){
+    user = data.user
+    console.log(user)
+    return (
+  
+        <div className="App">
+          <NavBar user={user}/>
+          <Switch>
+            <Route exact path="/posts"  component={Posts} />
+            <Route exact path="/signup" component={SignUp}/> 
+            <Route exact path="/login" component={Login}/>
+            <Route exact path="/users/:id" render={(props)=>{
+              return <UserInfo {...props} user={user}/>
+            }}/>
+          </Switch>
+        </div>
+    );
+  }
 }
 
 export default App;

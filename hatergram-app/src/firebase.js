@@ -12,4 +12,4 @@ const firebaseApp = firebase.initializeApp({
     measurementId: "G-BFJZ77XN3J"
   })
 
-  export const storage = firebaseApp.storage();
+export const storage = firebaseApp.storage();

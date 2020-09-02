@@ -2,7 +2,8 @@ import React ,{ useState }from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import logo from "../../static/images/logo.png"
 import "./Login.css"
-import loginIcon from "../../static/icons/login.svg"
+import { USER } from "../../graphql/queries"
+import { validate } from 'graphql'
 const LOGIN = gql`
     mutation Login($email: String!, $password: String!){
         login(email: $email, password: $password){
@@ -11,42 +12,40 @@ const LOGIN = gql`
         }
     }
 `
-const USER = gql`
-    query User{
-        user{
-            email
-            id
-        }
-    }
-`
 
 
 
-function Login() {
+
+function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [login]=useMutation(LOGIN)
     const [errors, setErrors]= useState("")
-    const {loading, error, data}= useQuery(USER)
+    console.log(props)
+    
+
     const handleLogin=(e)=>{
         e.preventDefault()
-
+            
+        if(email.length === 0){return setErrors("Email Required")}
+        setErrors("")
+        if(password.length === 0){return setErrors("Password Required")}
+        setErrors("")
         login({variables: {email: `${email}`, password: `${password}`},
                             refetchQueries: [{query: USER}]
-        }).catch(res => res.graphQLErrors.map(error=> setErrors(error.message)))
+        }).then(res=> props.history.push("/posts")).catch(res =>{
+            res.graphQLErrors.map(error=> setErrors(error.message))
+        })  
         
     }
-    const showUser = ()=>{
-        console.log(data.user)
-    }
-    
+  
     return (
         <div className="login__container">
             <div className="login__header">
                 <img src={logo} alt=""/>
             </div>
             <form className='login__form'>
-                <div>{errors}</div>
+                {errors.length > 0 ? <div className="login__errors">{errors}</div> : null}
                 <div className='login__fields'>
                     <input name="email" className="login__input" type="email" required onChange={e=> setEmail(e.target.value)} />
                     <label htmlFor="email"className="login__label"><span>Email</span></label>

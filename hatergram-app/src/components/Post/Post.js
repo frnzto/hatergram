@@ -1,17 +1,21 @@
 import React from 'react'
-import avatar from "../../static/icons/user.png"
+import defaultAvatar from "../../static/icons/user.png"
 import "./Post.css"
-function Post() {
+
+
+function Post({caption, image, username, avatar}) {
     return (
         <div className="post__container">
             <div className="post__header">
                 <div>
-                    <img className="post__avatar" src={avatar} alt=""/>
-                    <h3>Username</h3>
+                    <img className="post__avatar" src={avatar ? avatar : defaultAvatar} alt=""/>
+                    <h3>{username}</h3>
                 </div>
-                <h2>Caption</h2>
+                <h2>{caption}</h2>
             </div>
-            <img className="post__image" src="https://images3.alphacoders.com/954/thumb-1920-954241.jpg" alt=""/>
+            <div className="post__image_bg">
+                <img className="post__image" src={image} alt=""/>
+            </div>
             <div className="post__likesbox">
                 <p>likes</p>
                 <p>comments</p>
@@ -25,11 +29,11 @@ function Post() {
             </div> 
             <div className="post__comments">
                 <div className="post__comments_create">
-                    <img src={avatar} alt="" className=""/>
+                    <img src={avatar ? avatar : defaultAvatar} alt="" className=""/>
                     <input type="text" placeholder="Write a comment..."/>
                 </div>
                 <div className="post__comments_bubble">
-                    <img src={avatar} alt=""/>
+                    <img src={defaultAvatar} alt=""/>
                     <div className="post__comments_bubble-text">
                         <div>username</div>
                         <div>some random text</div>

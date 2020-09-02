@@ -1,13 +1,9 @@
 import React from 'react'
 import { gql, useMutation} from '@apollo/client'
+import { USER } from "../../graphql/queries"
+import { LOGOUT } from "../../graphql/mutations"
 
-const LOGOUT = gql`
-    mutation Logout{
-        logout{
-            email
-        }
-    }
-`
+import "./Logout.css"
 
 function Logout() {
     const [logout]= useMutation(LOGOUT)
@@ -15,12 +11,12 @@ function Logout() {
     const handleLogout = (e)=>{
         e.preventDefault()
 
-        logout()
+        logout({refetchQueries:[{query: USER}]})
     }
 
     return (
         <div>
-            <button onClick={handleLogout}>LogOut</button>
+            <button className="logout__button" onClick={handleLogout}>LogOut</button>
         </div>
     )
 }

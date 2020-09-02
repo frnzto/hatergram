@@ -1,0 +1,16 @@
+.logout__button{
+    padding:13px 15px;
+    text-decoration:none;
+    color: var(--logo-color);
+    font-weight: bold;
+    border:none;
+    background:none;
+    cursor: pointer;
+    outline:none;
+}
+
+.logout__button:hover{
+    color:white;
+    background: var(--text-color);
+    transition: 0.2s ease
+}

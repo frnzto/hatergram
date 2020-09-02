@@ -19,6 +19,15 @@
 
 }
 
+.signup__errors{
+    width: 100%;
+    background: var(--text-color);
+    color:white;
+    margin-bottom: 20px;
+    text-align:center;
+    padding:15px;
+}
+
 .signup__header{
     display:flex;
     justify-content: center;
@@ -119,6 +128,7 @@
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     font-size:30px;
+    outline:none;
 }
 
 .signup__button:hover{

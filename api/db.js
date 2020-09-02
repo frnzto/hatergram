@@ -35,11 +35,10 @@ const User = sequelize.define('user',{
 const Post = sequelize.define('post', {
     caption: {
       type: DataTypes.STRING,
-      allowNull: false
     },
     image: {
         type: DataTypes.STRING,
-        allownull:false
+        allowNull:false
     },
     avatar: {
         type: DataTypes.STRING,

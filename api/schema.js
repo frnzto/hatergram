@@ -58,10 +58,10 @@ const PostType = new GraphQLObjectType({
                return post.id
             }
         },
-        content:{
+        caption:{
             type:GraphQLString,
             resolve(post){
-                return post.title
+                return post.caption
             }
         },
         userId: {
@@ -78,9 +78,9 @@ const PostType = new GraphQLObjectType({
             }
         },
         user:{
-            type: new GraphQLList(UserType),
+            type: UserType,
             resolve(post){
-                return sequelize.models.user.findAll({where: { id: post.userId}})
+                return sequelize.models.user.findOne({where: { id: post.userId}})
             }
         }
     
@@ -150,6 +150,15 @@ const RootQuery = new GraphQLObjectType({
             }
             
         },
+        userById: {
+            type: UserType,
+            args: {
+                id: {type: GraphQLInt}
+            },
+            resolve(root,{id}){
+                return sequelize.models.user.findOne({where: {id}})
+            }
+        },
         user: {
             type: UserType,
             resolve(root, args, req){
@@ -159,7 +168,7 @@ const RootQuery = new GraphQLObjectType({
         posts:{
             type: new GraphQLList(PostType),
             resolve(){
-                return sequelize.models.post.findAll()
+                return sequelize.models.post.findAll({order: [['createdAt', "DESC"]]})
             }
         }
         

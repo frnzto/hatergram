@@ -28,7 +28,7 @@ app.use('/graphql',cors({ origin: "http://localhost:3000", credentials: true }),
 app.use(cors())
 
 app.get("/", async (req,res) => {
-    // await sequelize.models.post.sync({force: true})
+    // await sequelize.models.post.sync()
     res.send("hi")
 })
 
