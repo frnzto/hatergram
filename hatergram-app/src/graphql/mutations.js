@@ -7,3 +7,12 @@ export const LOGOUT = gql`
         }
     }
 `
+
+export const USER_UPDATE = gql`
+    mutation User_Update($avatar: String){
+        userUpdate(avatar: $avatar){
+            email
+            avatar
+        }
+    }
+`

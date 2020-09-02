@@ -1,13 +1,10 @@
-:root{
-    --logo-color: #2a363b;
-    --form-main-color: #acdbdf;
-    --text-color: #eb6678;
-}
+
 
 .navbar{
     width:100%;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     background-color: var(--form-main-color);
     border-bottom: 1px solid rgb(25,15,84,0.5)
 

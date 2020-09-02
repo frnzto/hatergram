@@ -14,7 +14,7 @@ import UserInfo from './components/UserInfo/UserInfo';
 function App() {
   const {loading, error, data}= useQuery(USER)
   let user= null
-
+  
   if(loading){return <div>Loading...</div>}
   if(error){return <div>{error}</div>}
   if(data.user === null){

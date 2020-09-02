@@ -1,0 +1,12 @@
+.userstats__stats{
+    width:100%;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid var(--form-main-color)
+}
+.userstats__stats h1{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    color:var(--logo-color)
+}

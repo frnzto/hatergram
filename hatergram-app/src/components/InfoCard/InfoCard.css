@@ -1,0 +1,32 @@
+.infocard__wrapper{
+    display:flex;
+    position:relative;
+    justify-content: space-around;
+    border:6px solid var(--form-main-color);
+    width:100%;
+    border-radius:12px;
+    padding:20px;
+}
+
+.infocard__avatar-name{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+}
+
+.infocard__avatar {
+    vertical-align: middle;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.infocard__about{
+    display:flex;
+    flex-direction: column;
+    width:50%;
+    color: var(--logo-color)
+}

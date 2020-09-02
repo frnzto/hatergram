@@ -1,42 +1,37 @@
-import React from 'react'
-import avatarDefault from "../../static/icons/user.png"
+import React, { useState } from 'react'
+import InfoCard from '../InfoCard/InfoCard'
 import { useQuery } from "@apollo/client"
 import { USER_BY_ID } from "../../graphql/queries"
 import "./UserInfo.css"
+import UserStats from '../UserStats/UserStats'
+import UserGallery from '../UserGallery/UserGallery'
 
 function UserInfo({user,match}) {
+    const [refresh , setRefresh] = useState(false)
     const {loading, error, data}= useQuery(USER_BY_ID,{
-        variables: {id: parseInt(match.params.id)}})
+        variables: {id: parseInt(match.params.id )}})
     if(loading){return <div>Loading...</div>}
     if(data.userById){
-        console.log(data)
+        const { posts } =data.userById
         return (
-            <div className="userinfo__container">
-                <div className="userinfo__wrapper">
-                    <div className="userinfo__avatar-name">
-                        <img className="userinfo__avatar" src={data.userById.avatar || avatarDefault} alt=""/>
-                        <h2>{data.userById.username}</h2>
-                    </div>
-                    <div className="userinfo__about">
-                        <h1>About me</h1>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla sit, omnis quod inventore voluptate quia libero possimus aliquid molestias, repellat provident dignissimos explicabo impedit modi, debitis similique. Minima, fuga minus!</p>
-                    </div>
+            <div className="userinfo">
+                <div className="userinfo__container">
+                    
+                    <InfoCard
+                        
+                     avatar={data.userById.avatar} 
+                     matchId={match.params.id}
+                     userId= {user ? user.id : null}
+                     username={data.userById.username} 
+                    />
+                    <UserStats />
+        
                 </div>
-                <div className="userinfo__stats">
-                    <div>
-                        <h1>0</h1>
-                        <h1>POST</h1>
-                    </div>
-                    <div>
-                        <h1>0</h1>
-                        <h1>Hates</h1>
-                    </div>
-                    <div>
-                        <h1>0</h1>
-                        <h1>Likes</h1>
-                    </div>
-                </div>
-    
+                <div className="userinfo__gallery">
+                       {posts.map( post =>{
+                           return <UserGallery key={post.id} image={post.image} />
+                       }) }
+                </div>  
             </div>
         )
     }

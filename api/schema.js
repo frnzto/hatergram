@@ -133,9 +133,19 @@ const Mutation = new GraphQLObjectType({
                     image:image,
                     userId: req.user.id
                  })
-
             }
-
+        },
+        userUpdate: {
+            type: UserType,
+            args: {
+                avatar:{type: GraphQLString}
+            },
+            resolve(root, {avatar},req){
+                console.log(req.user.id)
+               return sequelize.models.user.findOne({where: {id: req.user.id}})
+               .then(res => res.update({avatar: avatar}))
+               
+            }
         }
     })
 })

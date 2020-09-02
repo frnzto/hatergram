@@ -1,8 +1,4 @@
-:root{
-    --logo-color: #2a363b;
-    --form-main-color: #acdbdf;
-    --text-color: #eb6678;
-}
+
 
 .signup__container{
     display:flex;

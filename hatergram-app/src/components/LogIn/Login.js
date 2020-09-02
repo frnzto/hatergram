@@ -21,7 +21,6 @@ function Login(props) {
     const [password, setPassword] = useState('');
     const [login]=useMutation(LOGIN)
     const [errors, setErrors]= useState("")
-    console.log(props)
     
 
     const handleLogin=(e)=>{
