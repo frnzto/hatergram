@@ -35,9 +35,9 @@ function NavBar({user}) {
                 <img className="navbar__img" src={logo} alt=""/>
             </Link>
             <div className="navbar__links">
-                <Logout />
                 <CreatePost className/>
-                <Link id="link" to={`/users/${user.id}`}>{user.username}</Link>
+                <Logout />
+                <Link   to={`/users/${user.id}`}><img className="navbar__avatar" src={user.avatar} alt=""/></Link>
             </div>
         </div>
     )

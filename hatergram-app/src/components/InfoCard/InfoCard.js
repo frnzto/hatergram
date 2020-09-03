@@ -4,7 +4,7 @@ import avatarDefault from "../../static/icons/user.png"
 import "./InfoCard.css"
 import UserSettings from '../UserSettings/UserSettings'
 
-function InfoCard({matchId, userId, avatar, username}) {
+function InfoCard({matchId, userId, avatar, username,userById}) {
     return (
         <div className="infocard__wrapper">
             <div className="infocard__avatar-name">
@@ -13,7 +13,7 @@ function InfoCard({matchId, userId, avatar, username}) {
             </div>
             <div className="infocard__about">
                 <h1>About me</h1>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla sit, omnis quod inventore voluptate quia libero possimus aliquid molestias, repellat provident dignissimos explicabo impedit modi, debitis similique. Minima, fuga minus!</p>
+                <p>{userById.info}</p>
             </div>
             {+matchId === userId ? <UserSettings avatar={avatar} matchId={matchId}/>: null}
             

@@ -34,7 +34,6 @@ function App() {
   )}
   if(data.user != null){
     user = data.user
-    console.log(user)
     return (
   
         <div className="App">

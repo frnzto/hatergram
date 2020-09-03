@@ -20,6 +20,7 @@ query User{
         username
         email
         id
+        avatar
     }
 }
 `
@@ -30,6 +31,7 @@ export const USER_BY_ID= gql`
             id
             username
             avatar
+            info
             posts{
                 id
                 image

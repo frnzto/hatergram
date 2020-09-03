@@ -29,6 +29,9 @@ const User = sequelize.define('user',{
         type: DataTypes.STRING,
 
     },
+    info: {
+        type: DataTypes.STRING,
+    }
     
     
 })

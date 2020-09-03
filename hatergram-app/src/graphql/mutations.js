@@ -9,9 +9,9 @@ export const LOGOUT = gql`
 `
 
 export const USER_UPDATE = gql`
-    mutation User_Update($avatar: String){
-        userUpdate(avatar: $avatar){
-            email
+    mutation User_Update($avatar: String, $info: String){
+        userUpdate(avatar: $avatar, info: $info){
+            info
             avatar
         }
     }

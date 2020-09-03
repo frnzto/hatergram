@@ -39,6 +39,12 @@ const UserType= new GraphQLObjectType({
                 return user.avatar
             }
         },
+        info:{
+            type: GraphQLString,
+            resolve(user){
+                return user.info
+            }
+        },
         posts: {
             type: new GraphQLList(PostType),
             resolve(user){
@@ -138,12 +144,13 @@ const Mutation = new GraphQLObjectType({
         userUpdate: {
             type: UserType,
             args: {
-                avatar:{type: GraphQLString}
+                avatar:{type: GraphQLString},
+                info:{type: GraphQLString}
             },
-            resolve(root, {avatar},req){
+            resolve(root, {avatar, info},req){
                 console.log(req.user.id)
                return sequelize.models.user.findOne({where: {id: req.user.id}})
-               .then(res => res.update({avatar: avatar}))
+               .then(res => res.update({avatar: avatar, info: info }))
                
             }
         }

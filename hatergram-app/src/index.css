@@ -4,7 +4,10 @@
   --logo-color: #2a363b;
   --form-main-color: #acdbdf;
   --text-color: #eb6678;
+  --body-bg-color: #f3f6f6;
+  --white-color: white;
 }
+
 
 
 
@@ -15,7 +18,7 @@
 }
 
 body {
-  
+  background-color: var(--body-bg-color);
   margin: 0;
   font-family: 'Abel', sans-serif;
 }

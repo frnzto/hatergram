@@ -12,7 +12,8 @@
     border:1px solid var(--form-main-color);
     border-radius: 15px;;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.2);
-    position:relative
+    position:relative;
+    background-color: var(--white-color);
 
 }
 
@@ -47,8 +48,10 @@
     align-items:center;
     justify-content: center;
     overflow: hidden;
+    
 }
 .login__fields{
+    
     width:100%;
     position:relative;
     color:var(--text-color);

@@ -15,10 +15,24 @@
 .navbar__links{
     display:flex;
     align-items: center;
-    
-    
-
 }
+
+.navbar__avatar{
+    border-radius: 50%;
+    width:35px;
+    height: 35px;
+    object-fit: cover;
+    margin-top:5px;
+    margin-left: 5px;
+    transition: 0.3s ease
+}   
+
+.navbar__avatar:hover{
+    opacity: 0.85;
+    
+}
+
+
 #link{
     padding:10px 15px;
     text-decoration:none;

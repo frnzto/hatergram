@@ -18,7 +18,7 @@ function UserInfo({user,match}) {
                 <div className="userinfo__container">
                     
                     <InfoCard
-                        
+                     userById={data.userById}   
                      avatar={data.userById.avatar} 
                      matchId={match.params.id}
                      userId= {user ? user.id : null}
