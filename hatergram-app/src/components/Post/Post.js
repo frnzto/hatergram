@@ -1,9 +1,10 @@
 import React from 'react'
 import defaultAvatar from "../../static/icons/user.png"
 import "./Post.css"
+import SocialButtons from '../SocialButtons/SocialButtons'
 
 
-function Post({caption, image, username, avatar}) {
+function Post({caption, image, username, avatar, hates, postId }) {
     return (
         <div className="post__container">
             <div className="post__header">
@@ -17,16 +18,10 @@ function Post({caption, image, username, avatar}) {
                 <img className="post__image" src={image} alt=""/>
             </div>
             <div className="post__likesbox">
-                <p>likes</p>
+                <p>hates: {hates.length}</p>
                 <p>comments</p>
             </div>
-            <div className="post__buttons_container">
-                <div className="post__buttons">
-                    <button id="post__button">Hate</button>
-                    <button id="post__button">Like</button>
-                    <button id="post__button">Comment</button>
-                </div>
-            </div> 
+            <SocialButtons postId={postId} />
             <div className="post__comments">
                 <div className="post__comments_create">
                     <img src={avatar ? avatar : defaultAvatar} alt="" className=""/>

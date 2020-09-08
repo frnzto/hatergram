@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
 import CreatePost from '../CreatePost/CreatePost'
 import Logout from "../../components/Logout/Logout"
@@ -14,7 +14,6 @@ function NavBar({user}) {
     //     {dark ? root.style.setProperty('--form-main-color', "black"):(root.style.setProperty('--form-main-color', "#acdbdf"))}
     //     setDark(prevMode => !prevMode)
     // }
-    console.log(user)
     if(!user){
         return(
             <div className="navbar">

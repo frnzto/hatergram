@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import InfoCard from '../InfoCard/InfoCard'
 import { useQuery } from "@apollo/client"
 import { USER_BY_ID } from "../../graphql/queries"
@@ -7,10 +7,10 @@ import UserStats from '../UserStats/UserStats'
 import UserGallery from '../UserGallery/UserGallery'
 
 function UserInfo({user,match}) {
-    const [refresh , setRefresh] = useState(false)
     const {loading, error, data}= useQuery(USER_BY_ID,{
         variables: {id: parseInt(match.params.id )}})
     if(loading){return <div>Loading...</div>}
+    if(error){return <div>{error}</div>}
     if(data.userById){
         const { posts } =data.userById
         return (

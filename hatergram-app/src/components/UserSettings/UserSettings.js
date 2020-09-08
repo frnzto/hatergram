@@ -2,7 +2,6 @@ import React, { useState }from 'react'
 import Modal from "react-modal"
 import { useMutation} from "@apollo/client"
 import { v4 as uuidv4 } from 'uuid';
-import { POSTS, USER_BY_ID } from "../../graphql/queries"
 import { USER_UPDATE } from "../../graphql/mutations"
 import "./UserSettings.css"
 import handleUserUpdate from "../../functions/handleUserUpdate"
@@ -67,7 +66,7 @@ function UserSettings({matchId, avatar}) {
                             <i className="fas fa-images"></i>  Choose a photo
                         </label>
                         <button
-                         onClick={()=>handleUserUpdate({about, image, USER_BY_ID, matchId, avatar, POSTS, userUpdate, setProgress, setModalOpen})} 
+                         onClick={()=>handleUserUpdate({about, image,  matchId, avatar, userUpdate, setProgress, setModalOpen})} 
                          id={image || about ? "createpost__post_button" : "createpost__post_unactive"}
                          >
                             Update

@@ -1,6 +1,6 @@
 import { storage } from "../firebase"
 
-const handleUserUpdate= ({about, image, USER_BY_ID, matchId, avatar, POSTS, userUpdate, setProgress, setModalOpen})=>{
+const handleUserUpdate= ({about, image, matchId, avatar, userUpdate, setProgress, setModalOpen})=>{
     if(about && image){
         const imageUrl = avatar
         if(imageUrl){
@@ -21,7 +21,7 @@ const handleUserUpdate= ({about, image, USER_BY_ID, matchId, avatar, POSTS, user
                 UploadTask.snapshot.ref.getDownloadURL()
                     .then(url=>{
                         console.log(url)
-                        userUpdate({variables: {avatar: url, info: about},refetchQueries:[{query: POSTS}, {query: USER_BY_ID , variables: {id: parseInt(matchId) } }]})
+                        userUpdate({variables: {avatar: url, info: about}})
                             .then(res=>{
                                 setModalOpen(false)
                                 setProgress(0)
@@ -34,9 +34,8 @@ const handleUserUpdate= ({about, image, USER_BY_ID, matchId, avatar, POSTS, user
         
         )
     }    
-    console.log("WHy i am still running")
     if(about){
-        userUpdate({variables: {info: about},refetchQueries:[ {query: USER_BY_ID , variables: {id: parseInt(matchId) } }]})
+        userUpdate({variables: {info: about}})
         .then(setModalOpen(false))
     }
     
@@ -60,7 +59,7 @@ const handleUserUpdate= ({about, image, USER_BY_ID, matchId, avatar, POSTS, user
                 UploadTask.snapshot.ref.getDownloadURL()
                     .then(url=>{
                         console.log(url)
-                        userUpdate({variables: {avatar: url},refetchQueries:[{query: POSTS}, {query: USER_BY_ID , variables: {id: parseInt(matchId) } }]})
+                        userUpdate({variables: {avatar: url}})
                             .then(res=>{
                                 setModalOpen(false)
                                 setProgress(0)

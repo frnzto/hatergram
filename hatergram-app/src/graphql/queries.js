@@ -7,8 +7,14 @@ query Posts{
         caption
         image
         user{
+            id
             username
             avatar
+        }
+        hates{
+            id
+            userId
+            postId
         }
     }
 }
@@ -37,5 +43,13 @@ export const USER_BY_ID= gql`
                 image
             }
         }
+    }
+`
+export const HATES= gql`
+    query Hates($postId: Int){
+        hates(postId: $postId){
+            userId
+        }
+        
     }
 `

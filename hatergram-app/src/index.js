@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import { BrowserRouter as Router } from "react-router-dom"
 
 
-//config for cookies from backend
+//config for cookies from backend to fronetnd
 const link = createHttpLink({
   uri: 'http://localhost:5000/graphql',
   credentials: 'include'
@@ -15,7 +15,25 @@ const link = createHttpLink({
 
 const client = new ApolloClient({
   uri: 'http://localhost:5000/graphql',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      PostType: {
+        fields: {
+          hates: {
+            merge:false
+            
+          },
+        },
+      },
+      Query:{
+        fields:{
+          posts:{
+            merge:false
+          },
+        },
+      },
+    },
+  }),
   link,
 });
 

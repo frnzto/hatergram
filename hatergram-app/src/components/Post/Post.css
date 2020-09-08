@@ -67,60 +67,6 @@
     padding:0 20px;
 }
 
-.post__buttons_container{
-    display:flex;
-    justify-content: center;
-    width:100%;
-    background-color: var(--form-main-color);
-}
-
-.post__buttons{
-    position:relative;
-    width:100%;
-    margin:0 20px;
-    display:flex;
-    
-   
-    
-}
-.post__buttons:after{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    width:100%;
-    border-top:1px solid var(--text-color);
-    
-}
-
-.post__buttons:before{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    width:100%;
-    height: 100%;
-    border-bottom: 1px solid var(--text-color);
-    pointer-events: none;
-}
-
-#post__button{
-    color:var(--text-color);
-    background-color: var(--form-main-color);
-    width:100%;
-    padding:15px 5px;
-    border:none;
-    margin:5px 0;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer;
-    outline:none;
-}
-#post__button:hover{
-    color:white;
-    background-color: var(--text-color);
-    transition: 0.3s ease;
-}
 .post__comments{
     display:flex;
     flex-direction: column;

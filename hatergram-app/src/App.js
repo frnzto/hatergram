@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { useQuery} from '@apollo/client'
 import Login from "./components/LogIn/Login"
@@ -41,7 +41,8 @@ function App() {
           <Switch>
             <Route exact path="/posts"  component={Posts} />
             <Route exact path="/signup" component={SignUp}/> 
-            <Route exact path="/login" component={Login}/>
+            <Route exact path="/login" render={(props)=>{
+              return <Login {...props} user={user}/>}}/>
             <Route exact path="/users/:id" render={(props)=>{
               return <UserInfo {...props} user={user}/>
             }}/>

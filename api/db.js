@@ -47,8 +47,16 @@ const Post = sequelize.define('post', {
         type: DataTypes.STRING,
     }
   });
+
+const Hate = sequelize.define('hates')
   
   // Relations
 User.hasMany(Post);
 Post.belongsTo(User);
+
+Post.hasMany(Hate);
+Hate.belongsTo(Post)
+
+User.hasMany(Hate);
+Hate.belongsTo(User)
   

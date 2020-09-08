@@ -1,22 +1,14 @@
 import React, { useState }from 'react'
 import Modal from "react-modal"
-import addPost from "../../static/icons/createPost.png"
 import { gql, useMutation} from "@apollo/client"
 import { v4 as uuidv4 } from 'uuid';
 import {storage} from "../../firebase.js"
-import {POSTS} from "../../graphql/queries"
-
+import { CREATE_POST } from "../../graphql/mutations"
 import "./CreatePost.css"
 
 Modal.setAppElement('#root')
 
-const CREATE_POST = gql`
-    mutation CreatePost($caption: String!, $image: String!){
-        createPost(caption: $caption, image: $image){
-            userId
-        }
-    }
-`
+
 
 const customStyles = {
 
@@ -44,7 +36,39 @@ function CreatePost() {
     const [modalOpen, setModalOpen] = useState(false)
     const [image, setImage]= useState(null)
     const [progress, setProgress] = useState(0)
-    const [createPost]= useMutation(CREATE_POST)
+    const [createPost]= useMutation(CREATE_POST, {
+        update(cache, { data: { createPost } }) {
+            cache.modify({
+              fields: {
+                posts(existingPosts= []) {
+                  const newPostRef = cache.writeFragment({
+                    data: createPost,
+                    fragment: gql`
+                      fragment newPost on Posts {
+                        
+                            id
+                            caption
+                            image
+                            user{
+                                id
+                                username
+                                avatar
+                            }
+                            hates{
+                                id
+                                userId
+                                postId
+                            }
+                        
+                      }
+                    `
+                  });
+                  return [...existingPosts, newPostRef];
+                }
+              }
+            });
+          }
+    })
     
     const handleImage=(e)=>{
         if(e.target.files[0]){
@@ -75,7 +99,7 @@ function CreatePost() {
                     UploadTask.snapshot.ref.getDownloadURL()
                         .then(url=>{
                             console.log(url)
-                            createPost({variables: {caption: `${caption}`, image: url},refetchQueries:[{query: POSTS}]})
+                            createPost({variables: {caption: `${caption}`, image: url}})
                                 .then(res=>{
                                     setModalOpen(false)
                                     setProgress(0)

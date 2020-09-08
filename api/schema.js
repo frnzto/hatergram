@@ -5,6 +5,7 @@ import {
     GraphQLString,
     GraphQLInt,
     GraphQLID,
+    graphql,
     
 }
 from "graphql"
@@ -88,8 +89,38 @@ const PostType = new GraphQLObjectType({
             resolve(post){
                 return sequelize.models.user.findOne({where: { id: post.userId}})
             }
+        },
+        hates:{
+            type: new GraphQLList(HateType),
+            resolve(post){
+                return sequelize.models.hates.findAll({where: {postId: post.id}})
+            }
         }
     
+    })
+})
+
+const HateType = new GraphQLObjectType({
+    name: "HateType",
+    fields: ()=>({
+        id:{
+            type: GraphQLInt,
+            resolve(hate){
+                return hate.id
+            }
+        },
+        userId:{
+            type: GraphQLInt,
+            resolve(hate){
+                return hate.userId
+            }
+        },
+        postId:{
+            type: GraphQLInt,
+            resolve(hate){
+                return hate.postId
+            }
+        },
     })
 })
 
@@ -153,6 +184,20 @@ const Mutation = new GraphQLObjectType({
                .then(res => res.update({avatar: avatar, info: info }))
                
             }
+        },
+        hatesAdd: {
+            type: HateType,
+            args:{
+                postId: {type:GraphQLInt}
+            },
+            resolve(root,{postId},req){
+                return sequelize.models.hates.findOne({where: {postId: postId, userId: req.user.id}})
+                .then(res=>{
+                    console.log("RESp",res)
+                    if(res){return res.destroy()}
+                    return sequelize.models.hates.create({postId: postId, userId: req.user.id})
+                })
+            }
         }
     })
 })
@@ -186,6 +231,15 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(PostType),
             resolve(){
                 return sequelize.models.post.findAll({order: [['createdAt', "DESC"]]})
+            }
+        },
+        hates:{
+            type: new GraphQLList(HateType),
+            args: {
+                postId: {type:GraphQLInt}
+            },
+            resolve(root,{postId}){
+                return sequelize.models.hates.findAll({where: {postId}})
             }
         }
         

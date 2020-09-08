@@ -1,9 +1,8 @@
-import React ,{ useState }from 'react'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import React ,{ useState, useEffect }from 'react'
+import { gql, useMutation } from '@apollo/client'
 import logo from "../../static/images/logo.png"
 import "./Login.css"
 import { USER } from "../../graphql/queries"
-import { validate } from 'graphql'
 const LOGIN = gql`
     mutation Login($email: String!, $password: String!){
         login(email: $email, password: $password){
@@ -16,12 +15,15 @@ const LOGIN = gql`
 
 
 
-function Login(props) {
+function Login({user, history}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [login]=useMutation(LOGIN)
     const [errors, setErrors]= useState("")
     
+    useEffect(()=>{
+        if(user){history.push("/posts")}
+    },[])
 
     const handleLogin=(e)=>{
         e.preventDefault()
@@ -32,7 +34,7 @@ function Login(props) {
         setErrors("")
         login({variables: {email: `${email}`, password: `${password}`},
                             refetchQueries: [{query: USER}]
-        }).then(res=> props.history.push("/posts")).catch(res =>{
+        }).then(res=> history.push("/posts")).catch(res =>{
             res.graphQLErrors.map(error=> setErrors(error.message))
         })  
         
