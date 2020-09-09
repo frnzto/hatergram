@@ -28,7 +28,7 @@ const customStyles = {
     }
   };
 
-function UserSettings({matchId, avatar}) {
+function UserSettings({matchId, avatar, username}) {
     const [modalOpen, setModalOpen] = useState(false)
     const [image, setImage]= useState(null)
     const [about, setAbout]= useState("")
@@ -66,7 +66,7 @@ function UserSettings({matchId, avatar}) {
                             <i className="fas fa-images"></i>  Choose a photo
                         </label>
                         <button
-                         onClick={()=>handleUserUpdate({about, image,  matchId, avatar, userUpdate, setProgress, setModalOpen})} 
+                         onClick={()=>handleUserUpdate({about, image,  matchId, avatar, username, userUpdate, setProgress, setModalOpen})} 
                          id={image || about ? "createpost__post_button" : "createpost__post_unactive"}
                          >
                             Update

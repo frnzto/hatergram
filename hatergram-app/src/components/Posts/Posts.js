@@ -5,7 +5,7 @@ import {POSTS} from "../../graphql/queries"
 
 
 
-function Posts() {
+function Posts({user}) {
     const {loading, error, data} = useQuery(POSTS)
     
     if(error){return alert(error)}
@@ -13,16 +13,18 @@ function Posts() {
     if(data){
 
         return (
-            data.posts.map(post=>{
+            data.posts.map((post, index)=>{
                 
                 return <Post 
-                    key={post.id}
+                    key={index}
                     caption={post.caption}
                     image={post.image}
                     username={post.user.username}
                     avatar={post.user.avatar}
                     hates= { post.hates ? post.hates : [] }
                     postId={post.id}
+                    postOwner={post.user}
+                    currentUser={user}
     
                 />
             })

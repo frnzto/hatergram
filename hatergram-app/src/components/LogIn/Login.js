@@ -23,11 +23,11 @@ function Login({user, history}) {
     
     useEffect(()=>{
         if(user){history.push("/posts")}
-    },[])
+    },[history, user])
 
     const handleLogin=(e)=>{
         e.preventDefault()
-            
+        console.log(e)
         if(email.length === 0){return setErrors("Email Required")}
         setErrors("")
         if(password.length === 0){return setErrors("Password Required")}
@@ -39,6 +39,12 @@ function Login({user, history}) {
         })  
         
     }
+
+    const onKeyPress=(event)=>{
+        if(event.key === "Enter"){
+            return handleLogin(event)
+        }
+    }
   
     return (
         <div className="login__container">
@@ -48,15 +54,21 @@ function Login({user, history}) {
             <form className='login__form'>
                 {errors.length > 0 ? <div className="login__errors">{errors}</div> : null}
                 <div className='login__fields'>
-                    <input name="email" className="login__input" type="email" required onChange={e=> setEmail(e.target.value)} />
+                    <input onKeyPress={onKeyPress} name="email" className="login__input" type="email" required onChange={e=> setEmail(e.target.value)} />
                     <label htmlFor="email"className="login__label"><span>Email</span></label>
                 </div>
                 <div className="login__fields">
-                    <input name="password" className="login__input" type="password" onChange={e=> setPassword(e.target.value)} required/>
+                    <input onKeyPress={onKeyPress} name="password" className="login__input" type="password" onChange={e=> setPassword(e.target.value)} required/>
                     <label htmlFor="password" className="login__label"><span>Password</span></label>
                 </div>
             </form>
-                <button className="login__button" onClick={handleLogin} >Log In</button> 
+                <button 
+                    className="login__button" 
+                    onKeyPress={onKeyPress}
+                    onClick={handleLogin} 
+                >
+                    Log In
+                </button> 
         </div>
     )
 

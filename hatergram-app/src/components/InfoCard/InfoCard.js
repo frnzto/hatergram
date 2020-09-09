@@ -15,7 +15,7 @@ function InfoCard({matchId, userId, avatar, username,userById}) {
                 <h1>About me</h1>
                 <p>{userById.info}</p>
             </div>
-            {+matchId === userId ? <UserSettings avatar={avatar} matchId={matchId}/>: null}
+            {+matchId === userId ? <UserSettings username={username} avatar={avatar} matchId={matchId}/>: null}
             
         </div>
     )

@@ -2,7 +2,6 @@ import React from 'react'
 import { HATES_ADD } from "../../graphql/mutations"
 import {useMutation, gql} from "@apollo/client"
 import "./SocialButtons.css"
-import { POSTS } from "../../graphql/queries"
 
 
 function SocialButtons({postId}) {

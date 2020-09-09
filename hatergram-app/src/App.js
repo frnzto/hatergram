@@ -19,7 +19,6 @@ function App() {
   if(error){return <div>{error}</div>}
   if(data.user === null){
     user=null
-    console.log(user)
     return (
     <div className="App">
       <NavBar user={user}/>
@@ -39,7 +38,8 @@ function App() {
         <div className="App">
           <NavBar user={user}/>
           <Switch>
-            <Route exact path="/posts"  component={Posts} />
+            <Route exact path="/posts"  render={(props)=>{
+              return <Posts {...props} user={user}/>}}/>
             <Route exact path="/signup" component={SignUp}/> 
             <Route exact path="/login" render={(props)=>{
               return <Login {...props} user={user}/>}}/>

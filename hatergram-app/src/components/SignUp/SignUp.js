@@ -32,6 +32,13 @@ function CreateUser() {
         addUser({variables: { username: `${username}`, email: `${email}`, password}}).catch(res => res.graphQLErrors.map(error=> setErrors(error.message)))
         setErrors("")
     }
+
+    const onKeyPress=(event)=>{
+        if(event.key === "Enter"){
+            return handleSubmit(event)
+        }
+    }
+
     return (
         <div className="signup__container">  
             <div className="signup__header">
@@ -40,15 +47,15 @@ function CreateUser() {
             <form className='signup__form'>
             {errors.length > 0 ? <div className="signup__errors">{errors}</div> : null}
                 <div className='signup__fields'>
-                    <input name="username" className="signup__input" type="text" required onChange={e=> setUsername(e.target.value)} />
+                    <input onKeyPress={onKeyPress} name="username" className="signup__input" type="text" required onChange={e=> setUsername(e.target.value)} />
                     <label htmlFor="username"className="signup__label"><span>Username</span></label>
                 </div>
                 <div className='signup__fields'>
-                    <input name="email" className="signup__input" type="text" required onChange={e=> setEmail(e.target.value)} />
+                    <input onKeyPress={onKeyPress} name="email" className="signup__input" type="text" required onChange={e=> setEmail(e.target.value)} />
                     <label htmlFor="email"className="signup__label"><span>Email</span></label>
                 </div>
                 <div className="signup__fields">
-                    <input name="password" className="signup__input" type="password" onChange={e=> setPassword(e.target.value)} required/>
+                    <input onKeyPress={onKeyPress} name="password" className="signup__input" type="password" onChange={e=> setPassword(e.target.value)} required/>
                     <label htmlFor="password" className="signup__label"><span>Password</span></label>
                 </div>
             </form>

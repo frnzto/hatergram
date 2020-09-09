@@ -1,12 +1,12 @@
 import { storage } from "../firebase"
 
-const handleUserUpdate= ({about, image, matchId, avatar, userUpdate, setProgress, setModalOpen})=>{
+const handleUserUpdate= ({about, image, matchId, avatar, username, userUpdate, setProgress, setModalOpen})=>{
     if(about && image){
         const imageUrl = avatar
         if(imageUrl){
             storage.refFromURL(imageUrl).delete()
         }
-        const UploadTask = storage.ref(`avatars/${image.name}`).put(image)
+        const UploadTask = storage.ref(`users/${username}/avatars/${image.name}`).put(image)
         return UploadTask.on(
             "state_changed", snapshot => {
                 const progressing =Math.round(
@@ -44,7 +44,7 @@ const handleUserUpdate= ({about, image, matchId, avatar, userUpdate, setProgress
         if(imageUrl){
             storage.refFromURL(imageUrl).delete()
         }
-        const UploadTask = storage.ref(`avatars/${image.name}`).put(image)
+        const UploadTask = storage.ref(`users/${username}/avatars/${image.name}`).put(image)
         UploadTask.on(
             "state_changed", snapshot => {
                 const progressing =Math.round(

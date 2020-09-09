@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import CreatePost from '../CreatePost/CreatePost'
+import defaultAvatar from "../../static/icons/user.png"
 import Logout from "../../components/Logout/Logout"
 
 import "./NavBar.css"
@@ -34,9 +35,9 @@ function NavBar({user}) {
                 <img className="navbar__img" src={logo} alt=""/>
             </Link>
             <div className="navbar__links">
-                <CreatePost className/>
+                <CreatePost className username={user.username}/>
                 <Logout />
-                <Link   to={`/users/${user.id}`}><img className="navbar__avatar" src={user.avatar} alt=""/></Link>
+                <Link   to={`/users/${user.id}`}><img className="navbar__avatar" src={user.avatar || defaultAvatar} alt="" title={user.username}/></Link>
             </div>
         </div>
     )

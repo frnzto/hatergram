@@ -2,14 +2,41 @@ import React from 'react'
 import defaultAvatar from "../../static/icons/user.png"
 import "./Post.css"
 import SocialButtons from '../SocialButtons/SocialButtons'
+import {DELETE_POST} from '../../graphql/mutations'
+import { useMutation } from '@apollo/client'
+import { Link } from 'react-router-dom'
+import { storage } from "../../firebase"
 
 
-function Post({caption, image, username, avatar, hates, postId }) {
+
+
+function Post({caption, image, username, avatar, hates, postId, currentUser, postOwner }) {
+    
+    const [deletePost]=useMutation(DELETE_POST,{
+        update(cache) {
+            cache.modify({
+                fields:{
+                    posts(existingPosts, {DELETE}){
+                        return DELETE  
+                    }
+                }
+            })
+        }
+    })
+
+    const handleDelete = async()=>{
+        const imageUrl = image
+        await storage.refFromURL(imageUrl).delete()
+        deletePost({variables :{id: postId}})
+    }
+    
     return (
         <div className="post__container">
             <div className="post__header">
+                { currentUser.id === postOwner.id ? <i onClick={handleDelete} className="fas fa-trash-alt post__delete"></i> : null}
+                
                 <div>
-                    <img className="post__avatar" src={avatar ? avatar : defaultAvatar} alt=""/>
+                   <Link to={`/users/${postOwner.id}`}><img className="post__avatar" src={avatar ? avatar : defaultAvatar} alt=""/></Link> 
                     <h3>{username}</h3>
                 </div>
                 <h2>{caption}</h2>

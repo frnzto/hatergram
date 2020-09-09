@@ -31,7 +31,7 @@ const customStyles = {
     }
   };
 
-function CreatePost() {
+function CreatePost({username}) {
     const [caption, setCaption] = useState("")
     const [modalOpen, setModalOpen] = useState(false)
     const [image, setImage]= useState(null)
@@ -46,19 +46,19 @@ function CreatePost() {
                     fragment: gql`
                       fragment newPost on Posts {
                         
+                        id
+                        caption
+                        image
+                        user{
                             id
-                            caption
-                            image
-                            user{
-                                id
-                                username
-                                avatar
-                            }
-                            hates{
-                                id
-                                userId
-                                postId
-                            }
+                            username
+                            avatar
+                        }
+                        hates{
+                            id
+                            userId
+                            postId
+                        }
                         
                       }
                     `
@@ -84,7 +84,7 @@ function CreatePost() {
 
     const handlePost = ()=>{
         if(image){
-            const UploadTask = storage.ref(`images/${image.name}`).put(image)
+            const UploadTask = storage.ref(`users/${username}/images/${image.name}`).put(image)
             UploadTask.on(
                 "state_changed", snapshot => {
                     const progressing =Math.round(

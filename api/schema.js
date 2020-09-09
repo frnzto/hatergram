@@ -172,6 +172,20 @@ const Mutation = new GraphQLObjectType({
                  })
             }
         },
+        deletePost: {
+            type: PostType,
+            args:{
+                id: {type: GraphQLInt}
+            },
+            resolve(root,{id}){
+                return sequelize.models.post.findOne({where: {id}}).then(
+                    resp=> {
+                        resp.destroy()
+                        return resp
+                    }
+                )
+            }
+        },
         userUpdate: {
             type: UserType,
             args: {
@@ -194,7 +208,10 @@ const Mutation = new GraphQLObjectType({
                 return sequelize.models.hates.findOne({where: {postId: postId, userId: req.user.id}})
                 .then(res=>{
                     console.log("RESp",res)
-                    if(res){return res.destroy()}
+                    if(res){
+                        res.destroy()
+                        return res
+                    }
                     return sequelize.models.hates.create({postId: postId, userId: req.user.id})
                 })
             }
