@@ -51,3 +51,11 @@
     font-size: 15px;
     color:var(--comments-text-color)
 }
+
+#comment__link {
+    text-decoration: none;
+}
+
+#comment__link:visited{
+    color: var(--logo-color)
+}

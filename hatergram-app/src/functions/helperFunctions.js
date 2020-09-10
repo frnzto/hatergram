@@ -9,7 +9,7 @@ export const createdAt = (createAt)=>{
 
     if(differenceYears != 0 && createDate.getMonth() > nowDate.getMonth()){
         if(differenceYears === 1){
-                return `${createDate.getUTCMonth() - differenceMonths} months ago`
+                return `${12 + differenceMonths} months ago`
             
         }
         if(differenceYears > 1){
@@ -29,7 +29,7 @@ export const createdAt = (createAt)=>{
 
     if(differenceMonths != 0 && createDate.getDay() > nowDate.getDay()){
         if(differenceMonths === 1){
-                return `${createDate.getDay() - differenceDays} days ago`
+                return `${365 + differenceDays} days ago`
             
         }
         if(differenceMonths > 1){
@@ -49,7 +49,7 @@ export const createdAt = (createAt)=>{
 
     if(differenceDays != 0 && createDate.getHours() > nowDate.getHours()){
         if(differenceDays === 1){
-                return `${createDate.getHours() - differenceHours} hours ago`
+                return `${24 + differenceHours} hours ago`
             
         }
         if(differenceDays > 1){
@@ -69,7 +69,7 @@ export const createdAt = (createAt)=>{
 
     if(differenceHours != 0 && createDate.getMinutes() > nowDate.getMinutes()){
         if(differenceHours === 1){
-            return `${createDate.getMinutes() - differenceMinutes} minutes ago`
+            return `${60 + differenceMinutes} minutes ago`
         }
         if(differenceHours > 1){
             if( (differenceHours - 1 ) === 1){
