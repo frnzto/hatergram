@@ -1,0 +1,19 @@
+.createComment_container{
+    display:flex;
+    padding:10px 0;
+}
+
+.createComment_container img{
+    object-fit: cover;
+    border-radius: 50%;
+    width:30px;
+    height: 30px;
+    margin-right:5px
+}
+.createComment_container input{
+    width:100%;
+    border-radius: 12px;
+    border:none;
+    padding-left: 15px;
+    outline: none;
+}

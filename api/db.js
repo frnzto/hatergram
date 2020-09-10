@@ -26,7 +26,7 @@ const User = sequelize.define('user',{
         unique:true,
     },
     avatar: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1234),
 
     },
     info: {
@@ -40,7 +40,7 @@ const Post = sequelize.define('post', {
       type: DataTypes.STRING,
     },
     image: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1234),
         allowNull:false
     },
     avatar: {
@@ -49,6 +49,12 @@ const Post = sequelize.define('post', {
   });
 
 const Hate = sequelize.define('hates')
+const Comment = sequelize.define('comment',{
+    comment: {
+        type: DataTypes.STRING(600),
+    },
+    
+})
   
   // Relations
 User.hasMany(Post);
@@ -59,4 +65,9 @@ Hate.belongsTo(Post)
 
 User.hasMany(Hate);
 Hate.belongsTo(User)
-  
+
+Post.hasMany(Comment);
+Comment.belongsTo(Post);
+
+User.hasMany(Comment);
+Comment.belongsTo(User);

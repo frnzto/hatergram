@@ -16,6 +16,18 @@ query Posts{
             userId
             postId
         }
+        comments{
+            id
+            userId
+            postId
+            comment
+            createdAt
+            user{
+                id
+                username
+                avatar
+            }
+        }
     }
 }
 `

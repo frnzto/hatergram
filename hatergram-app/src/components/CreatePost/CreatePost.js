@@ -31,7 +31,7 @@ const customStyles = {
     }
   };
 
-function CreatePost({username}) {
+function CreatePost({username, userId}) {
     const [caption, setCaption] = useState("")
     const [modalOpen, setModalOpen] = useState(false)
     const [image, setImage]= useState(null)
@@ -64,6 +64,27 @@ function CreatePost({username}) {
                     `
                   });
                   return [...existingPosts, newPostRef];
+                },
+                userById(existingUsersById = []){
+                    const newUserRef = cache.writeFragment({
+                        data: createPost,
+                        variables: {id: userId},
+                        fragment: gql`
+                          fragment newUser on User_By_Id {
+                            userById
+                            id
+                            username
+                            avatar
+                            info
+                            posts{
+                                id
+                                image
+                            }
+                            
+                          }
+                        `
+                      });
+                    return [existingUsersById, newUserRef]
                 }
               }
             });

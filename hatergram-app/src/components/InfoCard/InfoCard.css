@@ -17,11 +17,13 @@
 }
 
 .infocard__avatar {
+    
     vertical-align: middle;
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
+    border:6px solid var(--form-main-color)
 }
 
 .infocard__about{

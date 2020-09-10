@@ -35,7 +35,7 @@ function NavBar({user}) {
                 <img className="navbar__img" src={logo} alt=""/>
             </Link>
             <div className="navbar__links">
-                <CreatePost className username={user.username}/>
+                <CreatePost className userId={user.id} username={user.username}/>
                 <Logout />
                 <Link   to={`/users/${user.id}`}><img className="navbar__avatar" src={user.avatar || defaultAvatar} alt="" title={user.username}/></Link>
             </div>

@@ -11,7 +11,6 @@ function Posts({user}) {
     if(error){return alert(error)}
     if(loading){return <div>Loading...</div>}
     if(data){
-
         return (
             data.posts.map((post, index)=>{
                 
@@ -20,12 +19,13 @@ function Posts({user}) {
                     caption={post.caption}
                     image={post.image}
                     username={post.user.username}
-                    avatar={post.user.avatar}
+                    userAvatar={user.avatar}
+                    postAvatar={post.user.avatar}
                     hates= { post.hates ? post.hates : [] }
                     postId={post.id}
                     postOwner={post.user}
                     currentUser={user}
-    
+                    comments= {post.comments}
                 />
             })
         )

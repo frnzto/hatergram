@@ -95,8 +95,57 @@ const PostType = new GraphQLObjectType({
             resolve(post){
                 return sequelize.models.hates.findAll({where: {postId: post.id}})
             }
+        },
+        comments:{
+            type: new GraphQLList(CommentType),
+            resolve(post){
+                return sequelize.models.comment.findAll({where: {postId: post.id}, order: [['createdAt', "DESC"]]})
+            }
         }
     
+    })
+})
+
+const CommentType = new GraphQLObjectType({
+    name:"CommentType",
+    fields:()=>({
+        id:{
+            type: GraphQLInt,
+            resolve(comment){
+               return comment.id
+            }
+
+        },
+        userId:{
+            type: GraphQLInt,
+            resolve(comment){
+                return comment.userId
+            }
+        },
+        postId:{
+            type: GraphQLInt,
+            resolve(comment){
+                return comment.postId
+            }
+        },
+        comment:{
+            type: GraphQLString,
+            resolve(comment){
+                return comment.comment
+            }
+        },
+        user:{
+            type: UserType,
+            resolve(comment){
+                return sequelize.models.user.findOne({where: { id: comment.userId}})
+            }
+        },
+        createdAt:{
+            type: GraphQLString,
+            resolve(comment){
+                return comment.createdAt
+            }
+        }
     })
 })
 
@@ -193,7 +242,6 @@ const Mutation = new GraphQLObjectType({
                 info:{type: GraphQLString}
             },
             resolve(root, {avatar, info},req){
-                console.log(req.user.id)
                return sequelize.models.user.findOne({where: {id: req.user.id}})
                .then(res => res.update({avatar: avatar, info: info }))
                
@@ -207,13 +255,50 @@ const Mutation = new GraphQLObjectType({
             resolve(root,{postId},req){
                 return sequelize.models.hates.findOne({where: {postId: postId, userId: req.user.id}})
                 .then(res=>{
-                    console.log("RESp",res)
                     if(res){
                         res.destroy()
                         return res
                     }
                     return sequelize.models.hates.create({postId: postId, userId: req.user.id})
                 })
+            }
+        },
+        hatesDelete:{
+            type: new GraphQLList(HateType),
+            args: {
+                postId: {type:GraphQLInt}
+            },
+            resolve(root, {postId}){
+                return sequelize.models.hates.findAll({where: {postId}}).then(
+                    hates=> hates.map( hate => {
+                        hate.destroy()
+                        return hate
+                    })
+                )
+            }
+        },
+        commentAdd:{
+            type: CommentType,
+            args:{
+                postId: {type:GraphQLInt},
+                comment: {type:GraphQLString}
+            },
+            resolve(root, {postId, comment}, req){
+                return sequelize.models.comment.create({postId, comment, userId: req.user.id})
+            }
+        },
+        commentsDelete:{
+            type: new GraphQLList(CommentType),
+            args:{
+                postId: {type:GraphQLInt}
+            },
+            resolve(root, {postId}){
+                return sequelize.models.comment.findAll({where: {postId}}).then(
+                    comments=> comments.map( comment => {
+                        comment.destroy()
+                        return comment
+                    })
+                )
             }
         }
     })
