@@ -9,6 +9,15 @@ export const LOGOUT = gql`
     }
 `
 
+export const LOGIN = gql`
+mutation Login($email: String!, $password: String!){
+    login(email: $email, password: $password){
+        email
+        id
+    }
+}
+`
+
 export const USER_UPDATE = gql`
     mutation User_Update($avatar: String, $info: String){
         userUpdate(avatar: $avatar, info: $info){
@@ -79,6 +88,14 @@ export const COMMENTS_DELETE = gql`
 export const FOLLOW_UNFOLLOW = gql`
     mutation FollowUnfollow($followed: Int!){
         followUnfollow(followed: $followed){
+            id
+        }
+    }
+`
+
+export const FOLLOW_MYSELF = gql`
+    mutation FollowMyself{
+        followMyself{
             id
         }
     }

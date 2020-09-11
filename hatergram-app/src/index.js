@@ -39,6 +39,9 @@ const client = new ApolloClient({
         fields:{
           followers:{
             merge:false
+          },
+          posts:{
+            merge:false
           }
         }
       },

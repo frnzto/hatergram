@@ -94,6 +94,14 @@
     background-color: var(--form-main-color);
     padding:0 20px;
 }
+.post__commentsCount{
+    cursor: pointer;
+
+}
+
+.post__commentsCount:hover{
+    text-decoration: underline;
+}
 
 .post__comments{
     display:flex;
@@ -107,6 +115,9 @@
 
 }
 
+.commentsHide{
+    display:none
+}
 
 
 

@@ -81,3 +81,37 @@ export const HATES= gql`
         
     }
 `
+
+export const POSTS_BY_ID = gql`
+    query PostsById{
+        postsById{
+            posts{
+                id
+                caption
+                image
+                user{
+                    id
+                    username
+                    avatar
+                }
+                hates{
+                    id
+                    userId
+                    postId
+                }
+                comments{
+                    id
+                    userId
+                    postId
+                    comment
+                    createdAt
+                    user{
+                        id
+                        username
+                        avatar
+                    }
+                }
+            }
+        }
+    }
+`

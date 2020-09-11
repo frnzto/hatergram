@@ -13,6 +13,7 @@ const bcrypt = require("bcryptjs")
 import {signUpHandle} from "./helpers/signUp"
 import {login} from "./helpers/logIn"
 import {sequelize} from "./db"
+import { Op } from "sequelize"
 const UserType= new GraphQLObjectType({
     name: "UserType",
     fields: () => ({
@@ -218,6 +219,12 @@ const FollowerType = new GraphQLObjectType({
                 return sequelize.models.user.findOne({where: { id: follow.followed}})
             }
         },
+        posts:{
+            type: new GraphQLList(PostType),
+            resolve(follow,args, req){
+                return sequelize.models.post.findAll({order: [['createdAt', "DESC"]], where: {userId : [follow.followed, req.user.id]}})
+            }
+        }
     })
 })
 
@@ -364,7 +371,16 @@ const Mutation = new GraphQLObjectType({
                     return sequelize.models.follower.create({followed, follower: req.user.id})
                 })
             }
+        },
+        followMyself: {
+            type: FollowerType,
+            resolve(root, args, req){
+                return sequelize.models.follower.create({followed: req.user.id ,follower: req.user.id})
+                
+            }    
         }
+        
+
     })
 })
 
@@ -398,6 +414,13 @@ const RootQuery = new GraphQLObjectType({
             resolve(){
                 return sequelize.models.post.findAll({order: [['createdAt', "DESC"]]})
             }
+        },
+        postsById:{
+            type: new GraphQLList(FollowerType),
+            resolve(root, args, req){
+                return sequelize.models.follower.findAll({where: {follower: req.user.id}})
+            }
+
         },
         hates:{
             type: new GraphQLList(HateType),

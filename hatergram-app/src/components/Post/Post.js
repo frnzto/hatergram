@@ -1,4 +1,5 @@
-import React from 'react'
+import React , {useRef , createRef} from 'react'
+import ReactDOM from "react-dom"
 import defaultAvatar from "../../static/icons/user.png"
 import "./Post.css"
 import SocialButtons from '../SocialButtons/SocialButtons'
@@ -13,7 +14,8 @@ import CreateComment from '../CreateComment/CreateComment'
 
 
 function Post({caption, image, username, postAvatar, userAvatar, hates, postId, currentUser, postOwner,comments }) {
-    
+    const inputRef= createRef()
+    const commentsRef = useRef()
     const [hatesDelete]= useMutation(HATES_DELETE)
     const [commentsDelete]= useMutation(COMMENTS_DELETE)
     const [deletePost]=useMutation(DELETE_POST,{
@@ -30,7 +32,8 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
             })
         }
     })
-
+    const checkIfHated = hates.filter(hate=> hate.userId === currentUser.id)
+    
     const handleDelete = async()=>{
         const imageUrl = image
         await storage.refFromURL(imageUrl).delete()
@@ -39,6 +42,14 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
         hatesDelete({variables: {postId} })
     }
     
+    const toggleComments = () =>{
+        const node= ReactDOM.findDOMNode(commentsRef.current)
+        node.classList.toggle("commentsHide")
+    }
+    
+
+    
+
     return (
         <div className="post__container">
             <div className="post__header">
@@ -55,12 +66,12 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
             </div>
             <div className="post__likesbox">
                 <p>hates: {hates.length}</p>
-                <p>comments</p>
+                <p onClick={toggleComments} className="post__commentsCount">comments: {comments.length}</p>
             </div>
-            <SocialButtons postId={postId} />
+            <SocialButtons focusRef={inputRef} toggleComments={toggleComments} checkIfHated={checkIfHated} postId={postId} />
             <div className="post__comments">
-                <CreateComment userAvatar={userAvatar} postId={postId} defaultAvatar={defaultAvatar}/>
-                <div className="post__comments_bubble">
+                <CreateComment ref={inputRef} userAvatar={userAvatar} postId={postId} defaultAvatar={defaultAvatar}/>
+                <div ref={commentsRef} className="post__comments_bubble commentsHide">
                     {comments.map((comment, index)=>
                         <Comment key={index} comment={comment}/>    
                     )}

@@ -3,14 +3,7 @@ import { gql, useMutation } from '@apollo/client'
 import logo from "../../static/images/logo.png"
 import "./Login.css"
 import { USER } from "../../graphql/queries"
-const LOGIN = gql`
-    mutation Login($email: String!, $password: String!){
-        login(email: $email, password: $password){
-            email
-            id
-        }
-    }
-`
+import {LOGIN} from "../../graphql/mutations"
 
 
 

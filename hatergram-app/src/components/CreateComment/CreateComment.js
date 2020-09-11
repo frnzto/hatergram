@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, forwardRef } from 'react'
 import {COMMENT_ADD} from "../../graphql/mutations"
 import { useMutation, gql } from '@apollo/client'
 
 
 import "./CreateComment.css"
 
-function CreateComment({defaultAvatar, userAvatar, postId}) {
+const CreateComment = forwardRef(({defaultAvatar, userAvatar, postId}, inputRef) => {
     const [comment, setComment]= useState("")
     const [commentAdd]= useMutation(COMMENT_ADD, {
         update(cache, {data: {commentAdd} }) {
@@ -47,6 +47,7 @@ function CreateComment({defaultAvatar, userAvatar, postId}) {
             <div className="createComment_container">
                 <img src={userAvatar ? userAvatar : defaultAvatar} alt="" className=""/>
                 <input 
+                    ref= {inputRef}
                     value={comment}
                     type="text" 
                     placeholder="Write a comment..."
@@ -56,6 +57,6 @@ function CreateComment({defaultAvatar, userAvatar, postId}) {
             </div>
         </div>
     )
-}
+})
 
 export default CreateComment

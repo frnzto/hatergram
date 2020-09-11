@@ -4,7 +4,7 @@ import {useMutation, gql} from "@apollo/client"
 import "./SocialButtons.css"
 
 
-function SocialButtons({postId}) {
+function SocialButtons({postId, checkIfHated, focusRef, toggleComments}) {
     const [hatesAdd] = useMutation(HATES_ADD,{
         update(cache, { data: { hatesAdd } }) {
             cache.modify({
@@ -29,14 +29,23 @@ function SocialButtons({postId}) {
             });
           }
     })
+    const focusInput = ()=>{
+      focusRef.current.focus()
+  }
+    
     const addRemoveHate = (postId)=> hatesAdd({variables: {postId}})
         
     return (
         <div className="socialbuttons__container">
             <div className="socialbuttons__buttons">
-                <button onClick={()=>addRemoveHate(postId)} id="socialbuttons__button">Hate</button>
-                <button id="socialbuttons__button">Like</button>
-                <button id="socialbuttons__button">Comment</button>
+                <button 
+                  onClick={()=>addRemoveHate(postId)} 
+                  className={checkIfHated.length > 0 ? "socialbutton__button_activeHate":"socialbuttons__button_hate"}
+                >
+                  <span>Hate</span>
+                </button>
+                <button className="socialbuttons__button_like"><span>Like</span></button>
+                <button onClick={()=> {toggleComments(); focusInput()}} className="socialbuttons__button_comment"><span>Comment</span></button>
             </div>
         </div> 
     )

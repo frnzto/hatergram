@@ -33,7 +33,9 @@
     pointer-events: none;
 }
 
-#socialbuttons__button{
+/* HATE BUTTON */
+
+.socialbuttons__button_hate{
     color:var(--text-color);
     background-color: var(--form-main-color);
     width:100%;
@@ -44,9 +46,117 @@
     border-radius: 10px;
     cursor: pointer;
     outline:none;
-}
-#socialbuttons__button:hover{
-    color:white;
-    background-color: var(--text-color);
     transition: 0.3s ease;
+
+}
+.socialbuttons__button_hate:hover{
+    background-color: var(--text-color);
+    
+}
+
+.socialbuttons__button_hate:hover::before {
+    content:"DO IT!!";
+    color:var(--white-color);
+    transition: 0.3s ease
+}
+
+.socialbuttons__button_hate:hover span{
+    display:none
+}
+
+.socialbutton__button_activeHate{
+    background-color: var(--text-color);
+    width:100%;
+    padding:15px 5px;
+    border:none;
+    margin:5px 0;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    outline:none;
+    transition: 0.3s ease;
+    color: var(--logo-color)
+}
+
+.socialbutton__button_activeHate span{
+    display:none
+}
+.socialbutton__button_activeHate::before{
+    content:"Hated"
+}
+
+
+.socialbutton__button_activeHate:hover span{
+    display:none
+}
+
+.socialbutton__button_activeHate:hover::before{
+    content:"Unhate???";
+    color: var(--text-color);
+    
+}
+.socialbutton__button_activeHate:hover{
+    background-color: var(--logo-color);
+}
+
+/* LIKE BUTTON */
+
+.socialbuttons__button_like{
+    color:var(--text-color);
+    background-color: var(--form-main-color);
+    width:100%;
+    padding:15px 5px;
+    border:none;
+    margin:5px 0;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    outline:none;
+    transition: 0.3s ease;
+
+}
+.socialbuttons__button_like:hover{
+    background-color: var(--text-color);
+    
+}
+
+.socialbuttons__button_like:hover::before {
+    content:"WTF????";
+    color:var(--white-color);
+    transition: 0.3s ease
+}
+
+.socialbuttons__button_like:hover span{
+    display:none
+}
+
+/* COMMENT BUTTON */
+
+.socialbuttons__button_comment{
+    color:var(--text-color);
+    background-color: var(--form-main-color);
+    width:100%;
+    padding:15px 5px;
+    border:none;
+    margin:5px 0;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    outline:none;
+    transition: 0.3s ease;
+
+}
+.socialbuttons__button_comment:hover{
+    background-color: var(--text-color);
+    
+}
+
+.socialbuttons__button_comment:hover::before {
+    content:"Write a comment";
+    color:var(--white-color);
+    transition: 0.3s ease
+}
+
+.socialbuttons__button_comment:hover span{
+    display:none
 }
