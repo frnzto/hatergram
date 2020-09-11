@@ -7,7 +7,7 @@ export const createdAt = (createAt)=>{
     let differenceHours = nowDate.getHours() - createDate.getHours()
     let differenceMinutes = nowDate.getMinutes() - createDate.getMinutes()
 
-    if(differenceYears != 0 && createDate.getMonth() > nowDate.getMonth()){
+    if(differenceYears !== 0 && createDate.getMonth() > nowDate.getMonth()){
         if(differenceYears === 1){
                 return `${12 + differenceMonths} months ago`
             
@@ -20,14 +20,14 @@ export const createdAt = (createAt)=>{
         }
     }
 
-    if(differenceYears != 0 ){
+    if(differenceYears !== 0 ){
         if(differenceYears === 1){
             return `${differenceYears} year ago`
         }
         return `${differenceYears} years ago`
     }
 
-    if(differenceMonths != 0 && createDate.getDay() > nowDate.getDay()){
+    if(differenceMonths !== 0 && createDate.getDay() > nowDate.getDay()){
         if(differenceMonths === 1){
                 return `${30 + differenceDays} days ago`
             
@@ -40,14 +40,14 @@ export const createdAt = (createAt)=>{
         }
     }
 
-    if(differenceMonths != 0){
+    if(differenceMonths !== 0){
         if(differenceMonths === 1){
             return `${differenceMonths} month ago`
         }
         return `${differenceMonths} months ago`
     }
 
-    if(differenceDays != 0 && createDate.getHours() > nowDate.getHours()){
+    if(differenceDays !== 0 && createDate.getHours() > nowDate.getHours()){
         if(differenceDays === 1){
                 return `${24 + differenceHours} hours ago`
             
@@ -60,14 +60,14 @@ export const createdAt = (createAt)=>{
         }
     }
 
-    if(differenceDays != 0){
+    if(differenceDays !== 0){
         if(differenceDays === 1){
             return `${differenceDays} day ago`
         }
         return `${differenceDays} days ago`
     }
 
-    if(differenceHours != 0 && createDate.getMinutes() > nowDate.getMinutes()){
+    if(differenceHours !== 0 && createDate.getMinutes() > nowDate.getMinutes()){
         if(differenceHours === 1){
             return `${60 + differenceMinutes} minutes ago`
         }
@@ -79,14 +79,14 @@ export const createdAt = (createAt)=>{
         }
     }
 
-    if(differenceHours != 0){
+    if(differenceHours !== 0){
         if(differenceHours === 1){
             return `${differenceHours} hour ago`
         }
         return `${differenceHours} hours ago`
     }
 
-    if(differenceMinutes != 0){
+    if(differenceMinutes !== 0){
         
         if(differenceMinutes === 1){
             return `${differenceMinutes} minute ago`

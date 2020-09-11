@@ -1,8 +1,5 @@
 .usersettings__icon{
     transform: scale(1.5);
-    position: absolute;
-    top:25px;
-    right: 25px;
     cursor: pointer;
     color: var(--logo-color);
     padding:10px;

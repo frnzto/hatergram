@@ -51,6 +51,18 @@ const UserType= new GraphQLObjectType({
             resolve(user){
                 return sequelize.models.post.findAll({ where:{ userId : user.id}})
             }
+        },
+        following: {
+            type: new GraphQLList(FollowerType),
+            resolve(user){
+                return sequelize.models.follower.findAll({where: {follower: user.id}})
+            }
+        },
+        followers: {
+            type: new GraphQLList(FollowerType),
+            resolve(user){
+                return sequelize.models.follower.findAll({where: {followed: user.id}})
+            }
         }
         
     })
@@ -168,6 +180,42 @@ const HateType = new GraphQLObjectType({
             type: GraphQLInt,
             resolve(hate){
                 return hate.postId
+            }
+        },
+    })
+})
+
+const FollowerType = new GraphQLObjectType({
+    name: "FollowerType",
+    fields: ()=>({
+        id:{
+            type: GraphQLInt,
+            resolve(follow){
+                return follow.id
+            }
+        },
+        follower:{
+            type: GraphQLInt,
+            resolve(follow){
+                return follow.follower
+            }
+        },
+        followed:{
+            type: GraphQLInt,
+            resolve(follow){
+                return follow.followed
+            }
+        },
+        followerName:{
+            type: UserType,
+            resolve(follow){
+                return sequelize.models.user.findOne({where: { id: follow.follower}})
+            }
+        },
+        followedName:{
+            type: UserType,
+            resolve(follow){
+                return sequelize.models.user.findOne({where: { id: follow.followed}})
             }
         },
     })
@@ -299,6 +347,22 @@ const Mutation = new GraphQLObjectType({
                         return comment
                     })
                 )
+            }
+        },
+        followUnfollow: {
+            type: FollowerType,
+            args:{
+                followed: {type: GraphQLInt}
+            },
+            resolve(root, {followed}, req){
+                return sequelize.models.follower.findOne({where: {followed, follower: req.user.id}})
+                .then( res => {
+                    if(res){
+                        res.destroy();
+                        return res
+                    }
+                    return sequelize.models.follower.create({followed, follower: req.user.id})
+                })
             }
         }
     })

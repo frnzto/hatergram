@@ -57,6 +57,15 @@ const Comment = sequelize.define('comment',{
     },
     
 })
+
+const Follower = sequelize.define('follower', {
+    followed: {
+        type: DataTypes.INTEGER
+    },
+    follower: {
+        type: DataTypes.INTEGER
+    }
+})
   
   // Relations
 User.hasMany(Post);

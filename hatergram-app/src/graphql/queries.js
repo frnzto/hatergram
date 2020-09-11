@@ -54,6 +54,22 @@ export const USER_BY_ID= gql`
                 id
                 image
             }
+            following{
+                id
+                followed
+                followedName{
+                    id
+                    username
+                }
+            }
+            followers{
+                id
+                follower
+                followerName{
+                    id
+                    username
+                }
+            }
         }
     }
 `

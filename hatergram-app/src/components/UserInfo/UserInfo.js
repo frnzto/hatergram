@@ -12,7 +12,7 @@ function UserInfo({user,match}) {
     if(loading){return <div>Loading...</div>}
     if(error){return <div>{error}</div>}
     if(data.userById){
-        const { posts } =data.userById
+        const { posts, followers, following } =data.userById
         return (
             <div className="userinfo">
                 <div className="userinfo__container">
@@ -23,8 +23,9 @@ function UserInfo({user,match}) {
                      matchId={match.params.id}
                      userId= {user ? user.id : null}
                      username={data.userById.username} 
+                     followers={followers}
                     />
-                    <UserStats />
+                    <UserStats posts={posts} followers={followers} following={following} />
         
                 </div>
                 <div className="userinfo__gallery">

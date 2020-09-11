@@ -75,3 +75,11 @@ export const COMMENTS_DELETE = gql`
         }
     }
 `
+
+export const FOLLOW_UNFOLLOW = gql`
+    mutation FollowUnfollow($followed: Int!){
+        followUnfollow(followed: $followed){
+            id
+        }
+    }
+`

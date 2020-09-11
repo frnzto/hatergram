@@ -30,7 +30,17 @@ const client = new ApolloClient({
           posts:{
             merge:false
           },
+          userById:{
+            merge:false
+          }
         },
+      },
+      UserType: {
+        fields:{
+          followers:{
+            merge:false
+          }
+        }
       },
     },
   }),
