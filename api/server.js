@@ -5,15 +5,17 @@ import { sequelize } from "./db"
 import passport from "passport";
 import initializePassport  from "./helpers/passportConfig"
 import session from "express-session"
-const app = express();
 const cors = require("cors")
+require('dotenv').config()
+
+const app = express();
 
 
 initializePassport(passport)
 
 
 app.use(session({
-    secret: 'keyboard cat',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     

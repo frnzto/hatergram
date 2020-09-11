@@ -1,10 +1,12 @@
 import { Sequelize, DataTypes, Model } from 'sequelize'
+require('dotenv').config()
+
 export const sequelize = new Sequelize(
-    'hatergram',
-    'kamen',
-    'kamen22',
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
     {
-        host: 'localhost',
+        host: process.env.DB_HOST,
         dialect: 'postgres'
     }
 )

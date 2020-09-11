@@ -34,7 +34,7 @@
 .comment__bubble{
     display:flex;
     flex-direction: column;
-    background:white;
+    background:var(--white-color);
     width: 100%;
     border-radius: 12px;
     align-items: flex-start;

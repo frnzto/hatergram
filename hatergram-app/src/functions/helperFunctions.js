@@ -29,7 +29,7 @@ export const createdAt = (createAt)=>{
 
     if(differenceMonths != 0 && createDate.getDay() > nowDate.getDay()){
         if(differenceMonths === 1){
-                return `${365 + differenceDays} days ago`
+                return `${30 + differenceDays} days ago`
             
         }
         if(differenceMonths > 1){
