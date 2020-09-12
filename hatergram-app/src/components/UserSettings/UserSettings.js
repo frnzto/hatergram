@@ -2,10 +2,11 @@ import React, { useState }from 'react'
 import Modal from "react-modal"
 import { useMutation} from "@apollo/client"
 import { v4 as uuidv4 } from 'uuid';
+
 import { USER_UPDATE } from "../../graphql/mutations"
-import "./UserSettings.css"
 import handleUserUpdate from "../../functions/handleUserUpdate"
 
+import "./UserSettings.css"
 
 const customStyles = {
 
@@ -45,8 +46,6 @@ function UserSettings({matchId, avatar, username}) {
         }
     }
     
-    
-
     return (
         <div>
             <i onClick={()=>setModalOpen(true)} className="fas fa-user-cog usersettings__icon"></i>

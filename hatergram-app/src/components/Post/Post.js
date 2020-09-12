@@ -1,15 +1,17 @@
 import React , {useRef , createRef} from 'react'
 import ReactDOM from "react-dom"
+import { Link } from 'react-router-dom'
+import { useMutation } from '@apollo/client'
+import { storage } from "../../firebase"
+
 import defaultAvatar from "../../static/icons/user.png"
-import "./Post.css"
 import SocialButtons from '../SocialButtons/SocialButtons'
 import Comment from "../Comment/Comment"
-import {DELETE_POST, HATES_DELETE, COMMENTS_DELETE} from '../../graphql/mutations'
-import { useMutation } from '@apollo/client'
-import { Link } from 'react-router-dom'
-import { storage } from "../../firebase"
 import CreateComment from '../CreateComment/CreateComment'
+import {DELETE_POST, HATES_DELETE, COMMENTS_DELETE} from '../../graphql/mutations'
+import { deletePostCacheUpdate } from '../../graphql/cacheUpdate'
 
+import "./Post.css"
 
 
 
@@ -18,20 +20,7 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
     const commentsRef = useRef()
     const [hatesDelete]= useMutation(HATES_DELETE)
     const [commentsDelete]= useMutation(COMMENTS_DELETE)
-    const [deletePost]=useMutation(DELETE_POST,{
-        update(cache) {
-            cache.modify({
-                fields:{
-                    posts(existingPosts, {DELETE}){
-                        return DELETE  
-                    },
-                    userById(existingUser, {DELETE}){
-                        return DELETE
-                    }
-                }
-            })
-        }
-    })
+    const [deletePost]=useMutation(DELETE_POST, deletePostCacheUpdate())
     const checkIfHated = hates.filter(hate=> hate.userId === currentUser.id)
     
     const handleDelete = async()=>{
@@ -46,9 +35,6 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
         const node= ReactDOM.findDOMNode(commentsRef.current)
         node.classList.toggle("commentsHide")
     }
-    
-
-    
 
     return (
         <div className="post__container">

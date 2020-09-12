@@ -1,9 +1,8 @@
 import React from 'react'
 import Post from "../Post/Post"
 import { useQuery } from "@apollo/client"
-import {POSTS, POSTS_BY_ID} from "../../graphql/queries"
 
-
+import {POSTS, POSTS_FOLLOWED} from "../../graphql/queries"
 
 
 function Posts({user, query}) {
@@ -32,11 +31,11 @@ function Posts({user, query}) {
             })
         )
     }
-    if(data && query === POSTS_BY_ID){
+    if(data && query === POSTS_FOLLOWED){
         console.log(data)
         return (
-            data.postsById.map((posts)=>
-                    posts.posts.map( (post, index) =>{
+            data.postsFollowed.map((post,index)=>{
+                    
                     return <Post 
                     key={index}
                     caption={post.caption}
@@ -50,7 +49,7 @@ function Posts({user, query}) {
                     currentUser={user}
                     comments= {post.comments}
                     />
-                })
+                }
                 
                 
             )

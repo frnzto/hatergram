@@ -6,7 +6,7 @@ import SignUp from "./components/SignUp/SignUp"
 import { Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Posts from './components/Posts/Posts';
-import {POSTS_BY_ID, USER, POSTS} from "./graphql/queries"
+import {POSTS_FOLLOWED, USER, POSTS} from "./graphql/queries"
 import UserInfo from './components/UserInfo/UserInfo';
 
 
@@ -40,7 +40,7 @@ function App() {
             <Route exact path="/posts"  render={(props)=>{
               return <Posts {...props} query={POSTS}  user={user}/>}}/>
             <Route exact path="/dashboard"  render={(props)=>{
-              return <Posts {...props} query={POSTS_BY_ID} user={user}/>}}/>
+              return <Posts {...props} query={POSTS_FOLLOWED} user={user}/>}}/>
             <Route exact path="/signup" component={SignUp}/> 
             <Route exact path="/login" render={(props)=>{
               return <Login {...props} user={user}/>}}/>

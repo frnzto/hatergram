@@ -1,35 +1,14 @@
 import React, { useState, forwardRef } from 'react'
-import {COMMENT_ADD} from "../../graphql/mutations"
 import { useMutation, gql } from '@apollo/client'
 
+import {COMMENT_ADD} from "../../graphql/mutations"
+import { addCommentCacheUpdate } from '../../graphql/cacheUpdate'
 
 import "./CreateComment.css"
 
 const CreateComment = forwardRef(({defaultAvatar, userAvatar, postId}, inputRef) => {
     const [comment, setComment]= useState("")
-    const [commentAdd]= useMutation(COMMENT_ADD, {
-        update(cache, {data: {commentAdd} }) {
-            cache.modify({
-                fields: {
-                    posts(existingPosts = []){
-                        const newCommentRef= cache.writeFragment({
-                            data: commentAdd,
-                            fragment: gql`
-                                fragment newComment on Posts{
-                                    comment{
-                                        id
-                                        userId
-                                        postId
-                                    }
-                                }
-                            `
-                        });
-                        return[...existingPosts, newCommentRef]
-                    }
-                }
-            })
-        }
-    })
+    const [commentAdd]= useMutation(COMMENT_ADD, addCommentCacheUpdate({gql}) )
 
     const handleCommentAdd= (e)=>{
         if(comment){

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useMutation} from '@apollo/client'
+
 import { USER } from "../../graphql/queries"
 import { LOGOUT } from "../../graphql/mutations"
 
@@ -10,7 +11,6 @@ function Logout() {
 
     const handleLogout = (e)=>{
         e.preventDefault()
-
         logout({refetchQueries:[{query: USER}]})
     }
 

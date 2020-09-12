@@ -2,13 +2,14 @@ import React, { useState }from 'react'
 import Modal from "react-modal"
 import { gql, useMutation} from "@apollo/client"
 import { v4 as uuidv4 } from 'uuid';
+
 import {storage} from "../../firebase.js"
 import { CREATE_POST } from "../../graphql/mutations"
+import { createPostCacheUpdate } from '../../graphql/cacheUpdate.js';
+
 import "./CreatePost.css"
 
 Modal.setAppElement('#root')
-
-
 
 const customStyles = {
 
@@ -36,60 +37,8 @@ function CreatePost({username, userId}) {
     const [modalOpen, setModalOpen] = useState(false)
     const [image, setImage]= useState(null)
     const [progress, setProgress] = useState(0)
-    const [createPost]= useMutation(CREATE_POST, {
-        update(cache, { data: { createPost } }) {
-            cache.modify({
-              fields: {
-                posts(existingPosts= []) {
-                  const newPostRef = cache.writeFragment({
-                    data: createPost,
-                    fragment: gql`
-                      fragment newPost on Posts {
-                        
-                        id
-                        caption
-                        image
-                        user{
-                            id
-                            username
-                            avatar
-                        }
-                        hates{
-                            id
-                            userId
-                            postId
-                        }
-                        
-                      }
-                    `
-                  });
-                  return [...existingPosts, newPostRef];
-                },
-                userById(existingUsersById = []){
-                    const newUserRef = cache.writeFragment({
-                        data: createPost,
-                        variables: {id: userId},
-                        fragment: gql`
-                          fragment newUser on User_By_Id {
-                            userById
-                            id
-                            username
-                            avatar
-                            info
-                            posts{
-                                id
-                                image
-                            }
-                            
-                          }
-                        `
-                      });
-                    return [existingUsersById, newUserRef]
-                }
-              }
-            });
-          }
-    })
+    const [createPost]= useMutation(CREATE_POST, createPostCacheUpdate({gql, userId})
+    )
     
     const handleImage=(e)=>{
         if(e.target.files[0]){

@@ -1,34 +1,13 @@
 import React from 'react'
-import { HATES_ADD } from "../../graphql/mutations"
 import {useMutation, gql} from "@apollo/client"
+
+import { HATES_ADD } from "../../graphql/mutations"
+import { hateCacheUpdate } from '../../graphql/cacheUpdate'
+
 import "./SocialButtons.css"
 
-
 function SocialButtons({postId, checkIfHated, focusRef, toggleComments}) {
-    const [hatesAdd] = useMutation(HATES_ADD,{
-        update(cache, { data: { hatesAdd } }) {
-            cache.modify({
-              fields: {
-                posts(existingHates= []) {
-                  const newPostRef = cache.writeFragment({
-                    data: hatesAdd,
-                    fragment: gql`
-                      fragment newHate on Posts {
-                            hates{
-                                id
-                                userId
-                                postId
-                            }
-                        
-                      }
-                    `
-                  });
-                  return [...existingHates, newPostRef];
-                }
-              }
-            });
-          }
-    })
+    const [hatesAdd] = useMutation(HATES_ADD,hateCacheUpdate({gql}))
     const focusInput = ()=>{
       focusRef.current.focus()
   }

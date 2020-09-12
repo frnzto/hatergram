@@ -82,34 +82,32 @@ export const HATES= gql`
     }
 `
 
-export const POSTS_BY_ID = gql`
-    query PostsById{
-        postsById{
-            posts{
+export const POSTS_FOLLOWED = gql`
+    query PostsFollowed{
+        postsFollowed{
+            id
+            caption
+            image
+            user{
                 id
-                caption
-                image
+                username
+                avatar
+            }
+            hates{
+                id
+                userId
+                postId
+            }
+            comments{
+                id
+                userId
+                postId
+                comment
+                createdAt
                 user{
                     id
                     username
                     avatar
-                }
-                hates{
-                    id
-                    userId
-                    postId
-                }
-                comments{
-                    id
-                    userId
-                    postId
-                    comment
-                    createdAt
-                    user{
-                        id
-                        username
-                        avatar
-                    }
                 }
             }
         }

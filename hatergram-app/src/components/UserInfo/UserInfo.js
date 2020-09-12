@@ -1,10 +1,12 @@
 import React from 'react'
-import InfoCard from '../InfoCard/InfoCard'
 import { useQuery } from "@apollo/client"
+
+import InfoCard from '../InfoCard/InfoCard'
 import { USER_BY_ID } from "../../graphql/queries"
-import "./UserInfo.css"
 import UserStats from '../UserStats/UserStats'
 import UserGallery from '../UserGallery/UserGallery'
+
+import "./UserInfo.css"
 
 function UserInfo({user,match}) {
     const {loading, error, data}= useQuery(USER_BY_ID,{

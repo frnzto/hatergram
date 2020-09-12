@@ -1,53 +1,23 @@
 import React from 'react'
-import avatarDefault from "../../static/icons/user.png"
+import { gql, useMutation } from '@apollo/client'
 
-import "./InfoCard.css"
+import avatarDefault from "../../static/icons/user.png"
 import UserSettings from '../UserSettings/UserSettings'
 import Button from '../Button/Button'
 import { FOLLOW_UNFOLLOW } from '../../graphql/mutations'
-import { gql, useMutation } from '@apollo/client'
+import { followUnfollowCacheUpdate } from '../../graphql/cacheUpdate'
+
+import "./InfoCard.css"
 
 function InfoCard({matchId, userId, avatar, username,userById, followers}) {
-    const[followUnfollow] = useMutation(FOLLOW_UNFOLLOW,{
-        update(cache, {data: {followUnfollow} }){
-            cache.modify({
-                fields:{
-                    userById(existingUserById = []){
-                        const newFolloerRef = cache.writeFragment({
-                            data: followUnfollow,
-                            variables: {id: matchId},
-                            fragment: gql`
-                                fragment newFollower on User_By_Id {
-                                    following{
-                                        id
-                                        followed
-                                        followedName{
-                                            id
-                                            username
-                                        }
-                                    }
-                                    followers{
-                                        id
-                                        follower
-                                        followerName{
-                                            id
-                                            username
-                                        }
-                                    }
-                                }
-                            `
-                        })
-                        return[ existingUserById, newFolloerRef]
-                    }
-                }
-            })
-        }
-    })
+    const[followUnfollow] = useMutation(FOLLOW_UNFOLLOW,followUnfollowCacheUpdate({gql, matchId}))
     
     const checkIfFollow = followers.filter(follower=>follower.follower === userId)
+    
     const handleFollow= ()=>{
         followUnfollow({variables:{followed: +matchId}})
     }
+
     return (
         <div className="infocard__wrapper">
             <div className="infocard__avatar-name">

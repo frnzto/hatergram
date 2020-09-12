@@ -374,8 +374,12 @@ const Mutation = new GraphQLObjectType({
         },
         followMyself: {
             type: FollowerType,
-            resolve(root, args, req){
-                return sequelize.models.follower.create({followed: req.user.id ,follower: req.user.id})
+            args: {
+                followed: {type: GraphQLInt},
+                follower: {type: GraphQLInt}
+            },
+            resolve(root, {followed, follower}, req){
+                return sequelize.models.follower.create({followed, follower})
                 
             }    
         }
@@ -415,10 +419,18 @@ const RootQuery = new GraphQLObjectType({
                 return sequelize.models.post.findAll({order: [['createdAt', "DESC"]]})
             }
         },
-        postsById:{
-            type: new GraphQLList(FollowerType),
+        postsFollowed:{
+            type: new GraphQLList(PostType),
             resolve(root, args, req){
-                return sequelize.models.follower.findAll({where: {follower: req.user.id}})
+                    let newArr= [req.user.id]
+                    return sequelize.models.follower.findAll({where: {follower: req.user.id}})
+                    .then(res=>{
+                        res.forEach(r=> newArr.push(r.followed))
+                        console.log(newArr)
+                    }).then(res=>sequelize.models.post.findAll({where:{userId: newArr}, order: [['createdAt', "DESC"]]}))
+                    
+                
+                
             }
 
         },

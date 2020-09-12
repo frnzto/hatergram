@@ -1,12 +1,11 @@
 import React ,{ useState, useEffect }from 'react'
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
+
 import logo from "../../static/images/logo.png"
-import "./Login.css"
 import { USER } from "../../graphql/queries"
 import {LOGIN} from "../../graphql/mutations"
 
-
-
+import "./Login.css"
 
 function Login({user, history}) {
     const [email, setEmail] = useState('');
@@ -27,7 +26,7 @@ function Login({user, history}) {
         setErrors("")
         login({variables: {email: `${email}`, password: `${password}`},
                             refetchQueries: [{query: USER}]
-        }).then(res=> history.push("/posts")).catch(res =>{
+        }).then(res=> history.push("/dashboard")).catch(res =>{
             res.graphQLErrors.map(error=> setErrors(error.message))
         })  
         

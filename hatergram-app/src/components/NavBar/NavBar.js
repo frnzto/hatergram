@@ -1,12 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CreatePost from '../CreatePost/CreatePost'
+
+import logo from "../../static/images/logo.png"
 import defaultAvatar from "../../static/icons/user.png"
+import CreatePost from '../CreatePost/CreatePost'
 import Logout from "../../components/Logout/Logout"
 
 import "./NavBar.css"
-
-import logo from "../../static/images/logo.png"
 
 function NavBar({user}) {
     // let root= document.documentElement
@@ -19,7 +19,7 @@ function NavBar({user}) {
         return(
             <div className="navbar">
                 {/* <button onClick={colorChange}>Color</button> */}
-                <Link to="/posts">
+                <Link to="/dashboard">
                     <img className="navbar__img" src={logo} alt=""/>
                 </Link>
                 <div className="navbar__links">
@@ -31,7 +31,7 @@ function NavBar({user}) {
     }
     return (
         <div className="navbar">
-            <Link to="/posts">
+            <Link to="/dashboard">
                 <img className="navbar__img" src={logo} alt=""/>
             </Link>
             <div className="navbar__links">

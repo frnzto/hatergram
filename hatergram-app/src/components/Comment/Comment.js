@@ -1,8 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import defaultAvatar from "../../static/icons/user.png"
 import {createdAt} from "../../functions/helperFunctions"
+
 import "./Comment.css"
-import { Link } from 'react-router-dom'
 
 function Comment({ comment }) {
     const commentOwner = comment.user.id

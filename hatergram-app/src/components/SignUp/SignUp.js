@@ -1,23 +1,17 @@
 import React , {useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
+
 import logo from "../../static/images/logo.png"
+import {ADD_USER} from "../../graphql/mutations"
+
 import "./SignUp.css"
 
-const Add_User = gql`
-    mutation AddUser($username: String!, $email: String!, $password: String!) {
-        addUser(username: $username, email: $email, password: $password){
-            username
-        }
-    }
-`
-
-function CreateUser() {
+function SignUp({history}) {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [addUser] = useMutation(Add_User)
+    const [addUser] = useMutation(ADD_USER)
     const [errors, setErrors]= useState('')
-    
     
     const handleSubmit =(e)=>{
         e.preventDefault()
@@ -29,7 +23,10 @@ function CreateUser() {
         setErrors("")
         if(password.length < 6){return setErrors("Password must be atleast 6 characters")}
         setErrors("")
-        addUser({variables: { username: `${username}`, email: `${email}`, password}}).catch(res => res.graphQLErrors.map(error=> setErrors(error.message)))
+        addUser({variables: { username: `${username}`, email: `${email}`, password}})
+        .then(history.push("/login"))
+        .catch(res => res.graphQLErrors.map(error=> setErrors(error.message)))
+        
         setErrors("")
     }
 
@@ -64,4 +61,4 @@ function CreateUser() {
     )
 }
 
-export default CreateUser
+export default SignUp

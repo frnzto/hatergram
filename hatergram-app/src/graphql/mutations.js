@@ -94,9 +94,17 @@ export const FOLLOW_UNFOLLOW = gql`
 `
 
 export const FOLLOW_MYSELF = gql`
-    mutation FollowMyself{
-        followMyself{
+    mutation FollowMyself($followed: Int!, $follower: Int!){
+        followMyself(followed: $followed, follower: $follower){
             id
         }
     }
+`
+
+export const ADD_USER = gql`
+mutation AddUser($username: String!, $email: String!, $password: String!) {
+    addUser(username: $username, email: $email, password: $password){
+        username
+    }
+}
 `
