@@ -53,7 +53,7 @@ export const deletePostCacheUpdate = ()=>(
         update(cache) {
             cache.modify({
                 fields:{
-                    posts(existingPosts, {DELETE}){
+                    paginatePosts(existingPosts, {DELETE}){
                         return DELETE  
                     },
                     userById(existingUser, {DELETE}){
@@ -73,11 +73,11 @@ export const addCommentCacheUpdate =({gql})=>(
         update(cache, {data: {commentAdd} }) {
             cache.modify({
                 fields: {
-                    posts(existingPosts = []){
+                    paginatePosts(existingPosts = []){
                         const newCommentRef= cache.writeFragment({
                             data: commentAdd,
                             fragment: gql`
-                                fragment newComment on Posts{
+                                fragment newComment on PaginatePosts{
                                     comment{
                                         id
                                         userId
@@ -86,7 +86,7 @@ export const addCommentCacheUpdate =({gql})=>(
                                 }
                             `
                         });
-                        return[...existingPosts, newCommentRef]
+                        return[existingPosts, newCommentRef]
                     },
                     postsFollowed( existingPostsFollowed = []) {
                         const newPostsFollowedRef = cache.writeFragment({
@@ -98,6 +98,17 @@ export const addCommentCacheUpdate =({gql})=>(
                             `
                         })
                         return [ ...existingPostsFollowed, newPostsFollowedRef]
+                    },
+                    commentsById( existingCommentById =[]) {
+                        const newCommentById = cache.writeFragment({
+                            data: commentAdd,
+                            fragment: gql`
+                                fragment newCommentById on CommentsById{
+                                    id
+                                }
+                            `
+                        })
+                        return[ ...existingCommentById, newCommentById]
                     }
                 }
             })
@@ -110,11 +121,11 @@ export const hateCacheUpdate = ({gql})=>(
         update(cache, { data: { hatesAdd } }) {
             cache.modify({
               fields: {
-                posts(existingHates= []) {
+                paginatePosts(existingHates= []) {
                   const newPostRef = cache.writeFragment({
                     data: hatesAdd,
                     fragment: gql`
-                        fragment newHate on Posts {
+                        fragment newHate on paginatePosts {
                             hates{
                                 id
                                 userId
@@ -123,7 +134,7 @@ export const hateCacheUpdate = ({gql})=>(
                         }
                         `
                   });
-                  return [...existingHates, newPostRef];
+                  return [existingHates, newPostRef];
                 },
                 postsFollowed(existingPostsFollowed= []) {
                   const newPostsFollowed = cache.writeFragment({
@@ -146,11 +157,11 @@ export const createPostCacheUpdate =({gql, userId}) =>({
     update(cache, { data: { createPost } }) {
         cache.modify({
           fields: {
-            posts(existingPosts= []) {
+            paginatePosts(existingPosts= []) {
               const newPostRef = cache.writeFragment({
                 data: createPost,
                 fragment: gql`
-                  fragment newPost on Posts {
+                  fragment newPost on PaginatePosts {
                     
                     id
                     caption
@@ -169,7 +180,7 @@ export const createPostCacheUpdate =({gql, userId}) =>({
                   }
                 `
               });
-              return [...existingPosts, newPostRef];
+              return [existingPosts, newPostRef];
             },
             userById(existingUsersById = []){
                 const newUserRef = cache.writeFragment({

@@ -9,6 +9,7 @@ import UserGallery from '../UserGallery/UserGallery'
 import "./UserInfo.css"
 
 function UserInfo({user,match}) {
+    console.log(match)
     const {loading, error, data}= useQuery(USER_BY_ID,{
         variables: {id: parseInt(match.params.id )}})
     if(loading){return <div>Loading...</div>}

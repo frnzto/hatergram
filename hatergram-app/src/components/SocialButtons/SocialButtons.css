@@ -47,16 +47,16 @@
     cursor: pointer;
     outline:none;
     transition: 0.3s ease;
+    margin-right:5px
 
 }
 .socialbuttons__button_hate:hover{
-    background-color: var(--text-color);
+    background-color: var(--form-main-color-hover);
     
 }
 
 .socialbuttons__button_hate:hover::before {
     content:"DO IT!!";
-    color:var(--white-color);
     transition: 0.3s ease
 }
 
@@ -75,7 +75,8 @@
     cursor: pointer;
     outline:none;
     transition: 0.3s ease;
-    color: var(--logo-color)
+    color: var(--logo-color);
+    margin-right:5px
 }
 
 .socialbutton__button_activeHate span{
@@ -116,13 +117,12 @@
 
 }
 .socialbuttons__button_like:hover{
-    background-color: var(--text-color);
+    background-color: var(--form-main-color-hover);
     
 }
 
 .socialbuttons__button_like:hover::before {
     content:"WTF????";
-    color:var(--white-color);
     transition: 0.3s ease
 }
 
@@ -144,16 +144,16 @@
     cursor: pointer;
     outline:none;
     transition: 0.3s ease;
+    margin-left:5px;
 
 }
 .socialbuttons__button_comment:hover{
-    background-color: var(--text-color);
+    background-color: var(--form-main-color-hover);
     
 }
 
 .socialbuttons__button_comment:hover::before {
     content:"Write a comment";
-    color:var(--white-color);
     transition: 0.3s ease
 }
 

@@ -7,6 +7,7 @@ import {createdAt} from "../../functions/helperFunctions"
 import "./Comment.css"
 
 function Comment({ comment }) {
+    
     const commentOwner = comment.user.id
     const {username, avatar}= comment.user
     return (

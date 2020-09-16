@@ -3,10 +3,9 @@ export const createdAt = (createAt)=>{
     let createDate= new Date(createAt)
     let differenceYears = nowDate.getFullYear() - createDate.getFullYear()
     let differenceMonths = nowDate.getMonth() - createDate.getMonth()
-    let differenceDays = nowDate.getDay() - createDate.getDay()
+    let differenceDays = nowDate.getDate() - createDate.getDate()
     let differenceHours = nowDate.getHours() - createDate.getHours()
     let differenceMinutes = nowDate.getMinutes() - createDate.getMinutes()
-
     if(differenceYears !== 0 && createDate.getMonth() > nowDate.getMonth()){
         if(differenceYears === 1){
                 return `${12 + differenceMonths} months ago`

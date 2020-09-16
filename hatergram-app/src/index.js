@@ -19,8 +19,9 @@ const client = new ApolloClient({
     typePolicies: typePolicies
   }),
   link,
+  
 });
-
+console.log(client)
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>

@@ -6,7 +6,7 @@ import { addCommentCacheUpdate } from '../../graphql/cacheUpdate'
 
 import "./CreateComment.css"
 
-const CreateComment = forwardRef(({defaultAvatar, userAvatar, postId}, inputRef) => {
+const CreateComment = forwardRef(({defaultAvatar, userAvatar, postId, openComments}, inputRef ) => {
     const [comment, setComment]= useState("")
     const [commentAdd]= useMutation(COMMENT_ADD, addCommentCacheUpdate({gql}) )
 
@@ -14,13 +14,12 @@ const CreateComment = forwardRef(({defaultAvatar, userAvatar, postId}, inputRef)
         if(comment){
             if( e.key === "Enter" ){
                 commentAdd({variables: {postId, comment}})
+                openComments()
                 setComment("")
-                
             }
         }
-
-        
     }
+    
     return (
         <div>
             <div className="createComment_container">

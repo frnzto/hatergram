@@ -5,10 +5,12 @@ import {
     GraphQLString,
     GraphQLInt,
     GraphQLID,
-    graphql,
+    GraphQLBoolean, isRequiredArgument, isNonNullType
     
 }
 from "graphql"
+import { v4 as uuidv4 } from 'uuid';
+import { toCursorHash , fromCursorHash } from "./helpers/cursorHash"
 const bcrypt = require("bcryptjs")
 import {signUpHandle} from "./helpers/signUp"
 import {login} from "./helpers/logIn"
@@ -114,7 +116,9 @@ const PostType = new GraphQLObjectType({
             resolve(post){
                 return sequelize.models.comment.findAll({where: {postId: post.id}, order: [['createdAt', "DESC"]]})
             }
-        }
+        },
+        
+        
     
     })
 })
@@ -158,7 +162,9 @@ const CommentType = new GraphQLObjectType({
             resolve(comment){
                 return comment.createdAt
             }
-        }
+        },
+        
+        
     })
 })
 
@@ -185,6 +191,7 @@ const HateType = new GraphQLObjectType({
         },
     })
 })
+
 
 const FollowerType = new GraphQLObjectType({
     name: "FollowerType",
@@ -227,6 +234,50 @@ const FollowerType = new GraphQLObjectType({
         }
     })
 })
+
+const PageInfoType = new GraphQLObjectType({
+    name: 'PageInfoType',
+    fields: ()=>({
+        endCursor: {
+            type: GraphQLString
+        },
+        hasNextPage: {
+            type: GraphQLBoolean
+
+        }
+    })
+})
+    
+
+
+const PersonEdgeType = new GraphQLObjectType({
+    name: 'PersonEdgeType',
+    fields: ()=>({
+        cursor:{
+            type: GraphQLInt,
+            
+        },
+        node:{
+            type: PostType
+        }
+    })
+})
+
+
+
+const PostConnectionType = new GraphQLObjectType({
+    name: 'PostConnection',
+    fields: ()=>({
+        edges:{
+            type: GraphQLList(PersonEdgeType)
+        },
+        pageInfo: {
+            type: PageInfoType
+        }
+    })
+})
+
+
 
 const Mutation = new GraphQLObjectType({
     name:'Mutation',
@@ -415,8 +466,12 @@ const RootQuery = new GraphQLObjectType({
         },
         posts:{
             type: new GraphQLList(PostType),
-            resolve(){
-                return sequelize.models.post.findAll({order: [['createdAt', "DESC"]]})
+            args: {
+                first: {type:GraphQLInt},
+                skip: {type: GraphQLInt}
+            },
+            resolve(root, {first, skip}){
+                return sequelize.models.post.findAll({order: [['createdAt', "DESC"]], limit: first, offset: skip})
             }
         },
         postsFollowed:{
@@ -426,10 +481,7 @@ const RootQuery = new GraphQLObjectType({
                     return sequelize.models.follower.findAll({where: {follower: req.user.id}})
                     .then(res=>{
                         res.forEach(r=> newArr.push(r.followed))
-                        console.log(newArr)
                     }).then(res=>sequelize.models.post.findAll({where:{userId: newArr}, order: [['createdAt', "DESC"]]}))
-                    
-                
                 
             }
 
@@ -442,7 +494,67 @@ const RootQuery = new GraphQLObjectType({
             resolve(root,{postId}){
                 return sequelize.models.hates.findAll({where: {postId}})
             }
+        },
+        commentsById: {
+            type: new GraphQLList(CommentType),
+            args: {
+                postId: {type:GraphQLInt}
+            },
+            resolve(root,{postId}){
+                
+                return sequelize.models.comment.findAll({where: {postId} ,order: [['createdAt', "DESC"]]})
+            }
+        },
+        paginatePosts: {
+            type: PostConnectionType,
+            args: {
+                cursor: {
+                    type: GraphQLString
+                },
+                limit: {type: GraphQLInt}
+            },
+            resolve(root , { cursor , limit = 3}){
+                const WhereOptions = cursor
+                    ? {
+                        where: {
+                        createdAt: {
+                            [Op.lt]: fromCursorHash(cursor)  // decode the cursor
+                        }
+                        }
+                    }
+                    : {};
+                return sequelize.models.post.findAll({
+                    ...WhereOptions,
+                    limit: limit + 1,
+                    order: [["createdAt", "DESC"]]
+                })
+                .then(res =>{
+                    if(res.length === 0){ 
+                        return {pageInfo:{
+                                    hasNextPage: false
+                        }} 
+                    }
+                    const hasNextPage = res.length > limit ;
+                    const nodes = hasNextPage ? res.slice(0, -1) : res
+
+                    const edges = nodes.map(node =>{
+                        return {node: node}
+                    });
+                    return {
+                        edges: edges,
+                        pageInfo:{
+                            hasNextPage: hasNextPage,
+                            endCursor: toCursorHash(nodes[nodes.length -1].createdAt.toString())
+                        }
+                    }
+                    
+                    
+                })
+
+
+            }
         }
+        
         
     }) 
 })

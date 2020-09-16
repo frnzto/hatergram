@@ -1,3 +1,5 @@
+
+
 export const typePolicies = {
     PostType: {
       fields: {
@@ -5,6 +7,7 @@ export const typePolicies = {
           merge:false
           
         },
+        
       },
     },
     Query:{
@@ -16,10 +19,16 @@ export const typePolicies = {
           merge:false
         },
         postsFollowed:{
+          merge:false,
+          
+        },
+        paginatePosts: {
           merge:false
+        
         },
       },
     },
+    
     UserType: {
       fields:{
         followers:{
