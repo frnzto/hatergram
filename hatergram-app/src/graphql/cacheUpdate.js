@@ -97,7 +97,7 @@ export const addCommentCacheUpdate =({gql})=>(
                                 }
                             `
                         })
-                        return [ ...existingPostsFollowed, newPostsFollowedRef]
+                        return [ existingPostsFollowed, newPostsFollowedRef]
                     },
                     commentsById( existingCommentById =[]) {
                         const newCommentById = cache.writeFragment({
@@ -145,7 +145,7 @@ export const hateCacheUpdate = ({gql})=>(
                       }
                     `
                   });
-                  return [ ...existingPostsFollowed, newPostsFollowed]
+                  return [ existingPostsFollowed, newPostsFollowed]
                 }
               }
             });

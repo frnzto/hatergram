@@ -83,32 +83,41 @@ export const HATES= gql`
 `
 
 export const POSTS_FOLLOWED = gql`
-    query PostsFollowed{
-        postsFollowed{
-            id
-            caption
-            image
-            user{
-                id
-                username
-                avatar
-            }
-            hates{
-                id
-                userId
-                postId
-            }
-            comments{
-                id
-                userId
-                postId
-                comment
-                createdAt
-                user{
+    query PostsFollowed($offset: Int){
+        postsFollowed(offset:$offset, limit:${3}){
+            edges{
+                cursor
+                node{
                     id
-                    username
-                    avatar
+                    caption
+                    image
+                    user{
+                        id
+                        username
+                        avatar
+                    }
+                    hates{
+                        id
+                        userId
+                        postId
+                    }
+                    comments{
+                        id
+                        userId
+                        postId
+                        comment
+                        createdAt
+                        user{
+                            id
+                            username
+                            avatar
+                        }
+                    }
                 }
+            }
+            pageInfo{
+                endCursor
+                hasNextPage
             }
         }
     }
@@ -149,15 +158,7 @@ export const PAGINATE_POSTS = gql`
                     }
                     comments{
                         id
-                        userId
-                        postId
-                        comment
-                        createdAt
-                        user{
-                            id
-                            username
-                            avatar
-                        }
+                        
                     }
                 }
             }

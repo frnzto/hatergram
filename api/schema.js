@@ -16,6 +16,7 @@ import {signUpHandle} from "./helpers/signUp"
 import {login} from "./helpers/logIn"
 import {sequelize} from "./db"
 import { Op } from "sequelize"
+import { response } from "express";
 const UserType= new GraphQLObjectType({
     name: "UserType",
     fields: () => ({
@@ -475,13 +476,40 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         postsFollowed:{
-            type: new GraphQLList(PostType),
-            resolve(root, args, req){
+            type: PostConnectionType,
+            args:{
+                offset: {type:GraphQLInt},
+                limit: {type: GraphQLInt}
+            },
+            resolve(root, {offset, limit= 2}, req){
+                    
                     let newArr= [req.user.id]
-                    return sequelize.models.follower.findAll({where: {follower: req.user.id}})
-                    .then(res=>{
-                        res.forEach(r=> newArr.push(r.followed))
-                    }).then(res=>sequelize.models.post.findAll({where:{userId: newArr}, order: [['createdAt', "DESC"]]}))
+                    return sequelize.models.follower.findAll({where: { follower: req.user.id} })
+                    .then(resp=>{
+                        resp.forEach(r=> newArr.push(r.followed))
+                    }).then(response=>sequelize.models.post.findAll({where:{userId: newArr} ,limit: limit + 1, offset : offset,  order: [['createdAt', "DESC"],]})
+                    .then(res =>{
+                        if(res.length === 0){ 
+                            return {pageInfo:{
+                                        hasNextPage: false
+                            }} 
+                        }
+                        const hasNextPage = res.length > limit ;
+                        const nodes = hasNextPage ? res.slice(0, -1) : res
+    
+                        const edges = nodes.map(node =>{
+                            return {node: node}
+                        });
+                        return {
+                            edges: edges,
+                            pageInfo:{
+                                hasNextPage: hasNextPage,
+                                endCursor: toCursorHash(nodes[nodes.length -1].createdAt.toString())
+                            }
+                        }
+                        
+                        
+                    }))
                 
             }
 

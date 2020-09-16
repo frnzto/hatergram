@@ -24,7 +24,6 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
     const [deletePost]=useMutation(DELETE_POST, deletePostCacheUpdate())
     const [commentsById,{loading, data}] = useLazyQuery(COMMENTS_BY_ID, {variables: {postId: postId}})
     const checkIfHated = hates.filter(hate=> hate.userId === currentUser.id)
-    
     const handleDelete = async()=>{
         const imageUrl = image
         await storage.refFromURL(imageUrl).delete()
@@ -32,16 +31,15 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
         commentsDelete({variables: {postId} })
         hatesDelete({variables: {postId} })
     }
-    
+    console.log(data)
     const toggleComments = () =>{
         const node= ReactDOM.findDOMNode(commentsRef.current)
-        commentsById()
         node.classList.toggle("commentsHide")
     }
     const openComments = ()=>{
         const node= ReactDOM.findDOMNode(commentsRef.current)
         if(node.classList.contains("commentsHide")){
-            commentsById()
+            // commentsById()
             node.classList.remove("commentsHide")
         }else{
             return

@@ -8,7 +8,6 @@ import {PAGINATE_POSTS, POSTS, POSTS_FOLLOWED} from "../../graphql/queries"
 function Posts({user, query}) {
     const {loading, error, data, fetchMore} = useQuery(query)
     const [isFetching, setIsFetching] = useState(false)
-    console.log(isFetching)
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
@@ -22,49 +21,56 @@ function Posts({user, query}) {
 
     if(error){return alert(error)}
     if(loading){return <div>Loading...</div>}
-    if(data && query === POSTS){
-        
-        return (
-            data.posts.map((post, index)=>{
-                
-                return <Post 
-                    key={index}
-                    caption={post.caption}
-                    image={post.image}
-                    username={post.user.username}
-                    userAvatar={user.avatar}
-                    postAvatar={post.user.avatar}
-                    hates= { post.hates ? post.hates : [] }
-                    postId={post.id}
-                    postOwner={post.user}
-                    currentUser={user}
-                    comments= {post.comments}
-                />
-            })
-        )
-    }
+   
     if(data && query === POSTS_FOLLOWED){
-        
-        return (
-            data.postsFollowed.map((post,index)=>{
+        console.log(data)
+        const onLoadMore = ()=>{
+            if(!data.postsFollowed.pageInfo.hasNextPage){
+                return
+            }
+            console.log(data.postsFollowed.edges.length)
+            setIsFetching(false)
+            
+            fetchMore({
+                query:POSTS_FOLLOWED,
+                variables: {offset: data.postsFollowed.edges.length},
+                updateQuery:(previousResult, {fetchMoreResult})=>{
                     
-                    return <Post 
-                    key={index}
-                    caption={post.caption}
-                    image={post.image}
-                    username={post.user.username}
-                    userAvatar={user.avatar}
-                    postAvatar={post.user.avatar}
-                    hates= { post.hates ? post.hates : [] }
-                    postId={post.id}
-                    postOwner={post.user}
-                    currentUser={user}
-                    comments= {post.comments}
-                    />
+                    if(fetchMoreResult.postsFollowed === null){ return}
+                    const newEdges = fetchMoreResult.postsFollowed.edges
+                    const pageInfo = fetchMoreResult.postsFollowed.pageInfo
+                    return newEdges
+                        ? {
+                            postsFollowed: {
+                                __typename: previousResult.postsFollowed.__typename,
+                                edges: [...previousResult.postsFollowed.edges, ...newEdges],
+                                pageInfo,
+                            },
+                            }
+                        : previousResult;
                 }
-                
-                
-            )
+            })
+        }
+        return (
+            <div>
+                {data.postsFollowed.edges.map((post,index)=>{
+                        return <Post 
+                        key={index}
+                        caption={post.node.caption}
+                        image={post.node.image}
+                        username={post.node.user.username}
+                        userAvatar={user.avatar}
+                        postAvatar={post.node.user.avatar}
+                        hates= { post.node.hates ? post.node.hates : [] }
+                        postId={post.node.id}
+                        postOwner={post.node.user}
+                        currentUser={user}
+                        comments= {post.node.comments}
+                        />
+                    })}
+                    {isFetching ? onLoadMore(): null}
+                    
+            </div>
         )
     }
 
