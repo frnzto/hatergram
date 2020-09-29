@@ -1,0 +1,34 @@
+.messages__container{
+    position: relative;
+    
+}
+
+#messages__button{
+    transform: scale(1.4);
+    padding: 0 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    line-height: 30px;
+}
+#messages__button:hover{
+    background-color:var(--text-color);
+    line-height: 30px;
+    color:var(--white-color);
+    transition: 0.3s ease;
+}
+
+.messages__wrap{
+    position: absolute;
+    height:50vh;
+    width:300px;
+    top:37px;
+    left:-3px;
+    background: var(--form-main-color);
+    overflow-y: auto;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.messages__hide {
+    display:none;
+}

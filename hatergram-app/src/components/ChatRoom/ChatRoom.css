@@ -1,0 +1,32 @@
+.chatroom__container{
+    display:flex;
+    align-items: center;
+    margin: 10px;
+    padding:5px;
+    transition: 0.3s ease;
+    border-radius: 12px;
+    cursor: pointer;
+
+}
+
+.chatroom__container:hover{
+    background-color: var(--form-main-color-hover);
+}
+
+.chatroom__avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 5px;
+    object-fit: cover;
+}
+
+.chatroom__username_message{
+    display:flex;
+    flex-direction: column;
+    line-height: 20px;
+}
+
+.chatroom__username{
+    font-weight: 600;
+}

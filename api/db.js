@@ -66,6 +66,28 @@ const Follower = sequelize.define('follower', {
         type: DataTypes.INTEGER
     }
 })
+
+const ChatRoom = sequelize.define('chatroom',{
+    name:{
+        type: DataTypes.STRING,
+    },
+    user1:{
+        type: DataTypes.INTEGER
+    },
+    user2:{
+        type: DataTypes.INTEGER
+    }
+})
+
+const Message = sequelize.define('message', {
+    chatroom:{
+        type: DataTypes.STRING,
+    },
+    message:{
+        type: DataTypes.STRING
+    }
+    
+})
   
   // Relations
 User.hasMany(Post);
@@ -82,3 +104,7 @@ Comment.belongsTo(Post);
 
 User.hasMany(Comment);
 Comment.belongsTo(User);
+
+User.hasMany(Message);
+Message.belongsTo(User)
+

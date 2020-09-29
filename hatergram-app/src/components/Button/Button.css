@@ -10,4 +10,18 @@
     font-weight: 600;
     outline:none;
     cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn__large{
+    width:100%
+    
+}
+
+.btn__follow:hover{
+    background-color: var(--form-main-color-hover)
+}
+
+.btn__mb{
+    margin-bottom: 20px
 }

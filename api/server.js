@@ -30,6 +30,8 @@ app.use('/graphql',cors({ origin: "http://localhost:3000", credentials: true }),
 app.use(cors())
 
 app.get("/", async (req,res) => {
+    // await sequelize.models.message.sync({force: true})
+    // await sequelize.models.chatroom.sync({force: true})
     // await sequelize.models.follower.sync()
     // await sequelize.models.hates.sync({alter: true})
     // await sequelize.models.comment.sync({alter: true})
@@ -38,4 +40,4 @@ app.get("/", async (req,res) => {
     res.send("hi")
 })
 
-app.listen(5000 , ()=> console.log("server started"))
+app.listen(4000 , ()=> console.log("server started"))

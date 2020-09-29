@@ -13,6 +13,7 @@ import { deletePostCacheUpdate } from '../../graphql/cacheUpdate'
 import { COMMENTS_BY_ID } from "../../graphql/queries"
 
 import "./Post.css"
+import Button from '../Button/Button'
 
 
 
@@ -22,7 +23,7 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
     const [hatesDelete]= useMutation(HATES_DELETE)
     const [commentsDelete]= useMutation(COMMENTS_DELETE)
     const [deletePost]=useMutation(DELETE_POST, deletePostCacheUpdate())
-    const [commentsById,{loading, data}] = useLazyQuery(COMMENTS_BY_ID, {variables: {postId: postId}})
+    const [commentsById,{loading, data, fetchMore}] = useLazyQuery(COMMENTS_BY_ID, {variables: {postId: postId}})
     const checkIfHated = hates.filter(hate=> hate.userId === currentUser.id)
     const handleDelete = async()=>{
         const imageUrl = image
@@ -31,20 +32,33 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
         commentsDelete({variables: {postId} })
         hatesDelete({variables: {postId} })
     }
-    console.log(data)
     const toggleComments = () =>{
         const node= ReactDOM.findDOMNode(commentsRef.current)
+        commentsById()
         node.classList.toggle("commentsHide")
     }
     const openComments = ()=>{
         const node= ReactDOM.findDOMNode(commentsRef.current)
         if(node.classList.contains("commentsHide")){
-            // commentsById()
+            commentsById()
             node.classList.remove("commentsHide")
         }else{
             return
         }
         
+    }
+
+    const loadMoreComments= ()=>{
+        fetchMore({
+            query:COMMENTS_BY_ID,
+            variables:{
+                offset: data.commentsById.length, 
+                postId: postId,    
+            },
+            updateQuery:(previousResult, {fetchMoreResult}) =>{
+                return {commentsById:[ ...previousResult.commentsById, ...fetchMoreResult.commentsById]} 
+            }
+        })
     }
 
     return (
@@ -63,7 +77,7 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
             </div>
             <div className="post__likesbox">
                 <p>hates: {hates.length}</p>
-                <p onClick={toggleComments} className="post__commentsCount">comments: {comments.length}</p>
+                <p onClick={comments.length ? toggleComments: null} className="post__commentsCount">comments: {comments.length}</p>
             </div>
             <SocialButtons focusRef={inputRef} lazyComments={commentsById}  toggleComments={toggleComments} checkIfHated={checkIfHated} postId={postId} />
             <div className="post__comments">
@@ -77,6 +91,8 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
                             return <Comment key={index} comment={comment}/>   
                         })) : null)
                     }
+                    {data ? (data.commentsById.length < comments.length ? <Button onClickFunc={loadMoreComments} value="View more" cssStyle="btn__follow btn__large btn__mb"></Button>:null): null}
+                    
                 </div>
 
             </div>

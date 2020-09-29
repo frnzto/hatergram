@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react'
 import Post from "../Post/Post"
 import { useQuery } from "@apollo/client"
 
-import {PAGINATE_POSTS, POSTS, POSTS_FOLLOWED} from "../../graphql/queries"
+import {PAGINATE_POSTS, POSTS_FOLLOWED} from "../../graphql/queries"
 
 
 function Posts({user, query}) {
@@ -17,14 +17,15 @@ function Posts({user, query}) {
         if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
         setIsFetching(true);
         }
-
+    
 
     if(error){return alert(error)}
     if(loading){return <div>Loading...</div>}
    
     if(data && query === POSTS_FOLLOWED){
         console.log(data)
-        const onLoadMore = ()=>{
+        
+        const onLoadMore =()=>{
             if(!data.postsFollowed.pageInfo.hasNextPage){
                 return
             }
@@ -51,6 +52,7 @@ function Posts({user, query}) {
                 }
             })
         }
+
         return (
             <div>
                 {data.postsFollowed.edges.map((post,index)=>{
@@ -79,7 +81,6 @@ function Posts({user, query}) {
             if(!data.paginatePosts.pageInfo.hasNextPage){
                 return
             }
-            console.log(data.paginatePosts)
             setIsFetching(false)
             
             fetchMore({

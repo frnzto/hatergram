@@ -103,15 +103,8 @@ export const POSTS_FOLLOWED = gql`
                     }
                     comments{
                         id
-                        userId
-                        postId
-                        comment
-                        createdAt
-                        user{
-                            id
-                            username
-                            avatar
-                        }
+                        
+                        
                     }
                 }
             }
@@ -124,14 +117,17 @@ export const POSTS_FOLLOWED = gql`
 `
 
 export const COMMENTS_BY_ID = gql`
-    query CommentsById($postId: Int){
-        commentsById(postId: $postId){
+    query CommentsById($postId: Int, $offset: Int, $limit:Int){
+        commentsById(postId: $postId, offset: $offset, limit: $limit){
             id
             userId
             comment
+            postId
             createdAt
             user{
+                id
                 username
+                avatar
             }
         }
     }
@@ -167,5 +163,34 @@ export const PAGINATE_POSTS = gql`
                 hasNextPage
             }
         }
+    }
+`
+
+export const CHAT_ROOMS = gql`
+    query ChatRooms{
+        chatRooms{
+            id
+            messages{
+                id
+                userId
+                message
+                user{
+                    id
+                    username
+                    avatar
+                }
+            }
+            firstUserInfo{
+                id
+                username
+                avatar
+            }
+            secondUserInfo{
+                id
+                username
+                avatar
+            }
+        }
+        
     }
 `

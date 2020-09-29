@@ -108,7 +108,7 @@ export const addCommentCacheUpdate =({gql})=>(
                                 }
                             `
                         })
-                        return[ ...existingCommentById, newCommentById]
+                        return[ existingCommentById, newCommentById]
                     }
                 }
             })

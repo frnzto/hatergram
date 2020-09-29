@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 
 import logo from "../../static/images/logo.png"
 import defaultAvatar from "../../static/icons/user.png"
+import Messages from "../Messages/Messages"
 import CreatePost from '../CreatePost/CreatePost'
 import Logout from "../../components/Logout/Logout"
 
@@ -36,6 +37,7 @@ function NavBar({user}) {
             </Link>
             <div className="navbar__links">
                 <CreatePost className userId={user.id} username={user.username}/>
+                <Messages user={user}/>
                 <Logout />
                 <Link   to={`/users/${user.id}`}><img className="navbar__avatar" src={user.avatar || defaultAvatar} alt="" title={user.username}/></Link>
             </div>

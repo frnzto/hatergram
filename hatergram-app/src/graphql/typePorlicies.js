@@ -19,13 +19,18 @@ export const typePolicies = {
           merge:false
         },
         postsFollowed:{
-          merge:false,
           
+          merge:false
         },
+        
         paginatePosts: {
           merge:false
         
         },
+        commentsById:{
+          
+          merge:false
+        }
       },
     },
     

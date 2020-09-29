@@ -278,11 +278,92 @@ const PostConnectionType = new GraphQLObjectType({
     })
 })
 
+const ChatRoomType = new GraphQLObjectType({
+    name: 'ChatRoomType',
+    fields: ()=>({
+        id: {
+            type:GraphQLInt
+        },
+        name:{
+            type:GraphQLString
+        },
+        user1:{
+            type: GraphQLInt
+        },
+        user2:{
+            type: GraphQLInt
+        },
+        firstUserInfo: {
+            type: UserType,
+            resolve(root){
+                return sequelize.models.user.findOne({where: {id: root.user1}})
+            }
+        },
+        secondUserInfo: {
+            type: UserType,
+            resolve(root){
+                return sequelize.models.user.findOne({where: {id: root.user2}})
+            }
+        },
+        messages:{
+            type: new GraphQLList(MessageType),
+            resolve(root){
+                return sequelize.models.message.findAll({where: {chatroom: root.name }})
+            }
+        }
+    })
+})
+
+const MessageType = new GraphQLObjectType({
+    name: "MessageType",
+    fields: ()=>({
+        id:{
+            type:GraphQLInt
+        },
+        chatroom: {
+            type: GraphQLString
+        },
+        message:{
+            type: GraphQLString
+        },
+        userId:{
+            type: GraphQLInt
+        },
+        user: {
+            type: UserType,
+            resolve(message){
+                return sequelize.models.user.findOne({where: {id: message.userId}})
+            }
+        }
+    })
+})
+
 
 
 const Mutation = new GraphQLObjectType({
     name:'Mutation',
     fields:() =>({
+
+        addMessage:{
+            type: MessageType,
+            args: {
+                secondUser:{
+                    type: GraphQLString
+                },
+                secondUserId:{
+                    type: GraphQLInt
+                },
+                message:{
+                    type: GraphQLString
+                }
+            },
+            resolve(root, {secondUser, message, secondUserId}, req){
+                const roomName = [secondUser, req.user.username].sort().join("").replace(/\s+/g, '')
+                sequelize.models.chatroom.findOne({ where: {name: roomName}})
+                .then( res=> !res ? sequelize.models.chatroom.create({name: roomName, user1: req.user.id , user2: secondUserId}): null)
+                return sequelize.models.message.create({chatroom: roomName, message:message, userId: req.user.id})
+            }
+        },
         addUser: {
             type: UserType,
             args:{
@@ -526,11 +607,13 @@ const RootQuery = new GraphQLObjectType({
         commentsById: {
             type: new GraphQLList(CommentType),
             args: {
+                limit: {type:GraphQLInt},
+                offset: {type:GraphQLInt},
                 postId: {type:GraphQLInt}
             },
-            resolve(root,{postId}){
+            resolve(root,{offset, limit =3, postId}){
                 
-                return sequelize.models.comment.findAll({where: {postId} ,order: [['createdAt', "DESC"]]})
+                return sequelize.models.comment.findAll({where: {postId} ,limit, offset,order: [['createdAt', "DESC"]]})
             }
         },
         paginatePosts: {
@@ -581,7 +664,13 @@ const RootQuery = new GraphQLObjectType({
 
 
             }
-        }
+        },
+        chatRooms:{
+            type: new GraphQLList(ChatRoomType),
+            resolve(root, args, req){
+                return sequelize.models.chatroom.findAll({where: {[Op.or]: [{ user1: req.user.id }, { user2: req.user.id }]}})
+            }
+        },
         
         
     }) 

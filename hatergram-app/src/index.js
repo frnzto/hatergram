@@ -9,12 +9,12 @@ import { typePolicies } from "./graphql/typePorlicies"
 
 //config for cookies from backend to fronetnd
 const link = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'http://localhost:4000/graphql',
   credentials: 'include'
 });
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache({
     typePolicies: typePolicies
   }),
