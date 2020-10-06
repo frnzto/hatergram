@@ -16,7 +16,11 @@ import {signUpHandle} from "./helpers/signUp"
 import {login} from "./helpers/logIn"
 import {sequelize} from "./db"
 import { Op } from "sequelize"
+import { PubSub } from "graphql-subscriptions"
 import { response } from "express";
+
+const pubsub= new PubSub()
+
 const UserType= new GraphQLObjectType({
     name: "UserType",
     fields: () => ({
@@ -362,7 +366,11 @@ const Mutation = new GraphQLObjectType({
                 sequelize.models.chatroom.findOne({ where: {name: roomName}})
                 .then( res=> !res ? sequelize.models.chatroom.create({name: roomName, user1: req.user.id , user2: secondUserId}): null)
                 return sequelize.models.message.create({chatroom: roomName, message:message, userId: req.user.id})
-            }
+                    .then( resp =>{ 
+                        pubsub.publish('newMessage', { newMessage: resp })
+                        return resp
+                    })
+            },
         },
         addUser: {
             type: UserType,
@@ -602,7 +610,7 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve(root,{postId}){
                 return sequelize.models.hates.findAll({where: {postId}})
-            }
+            },
         },
         commentsById: {
             type: new GraphQLList(CommentType),
@@ -676,10 +684,20 @@ const RootQuery = new GraphQLObjectType({
     }) 
 })
 
+const Subscription = new GraphQLObjectType({
+    name: "SubscriptionType",
+    fields: ()=>({
+        newMessage: {
+            type: MessageType,
+            subscriber: () => pubsub.asyncIterator(['newMessage'])
+        }
+    })
+})
 
 
 
 module.exports = new GraphQLSchema({
     query: RootQuery,
-    mutation: Mutation
+    mutation: Mutation,
+    subscription: Subscription
 })
