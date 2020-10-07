@@ -37,13 +37,11 @@ const initialize= (passport) =>{
     
     passport.serializeUser((user, done) =>{
         console.log("ID ", user)
-        done(null, user.id)})
-    passport.deserializeUser((id, done)=>{
-        console.log(id)
-        sequelize.models.user.findOne({where: {id: id}}).then(res=>{
-            if(!res) throw err
-            return done(null, res)
-        })
+        return done(null, user.id)})
+    passport.deserializeUser(async (id, done)=>{
+        console.log("user",id)
+        const loggedUser= await sequelize.models.user.findOne({where: {id: id}})
+        return done(null, loggedUser)
     })
 
 }

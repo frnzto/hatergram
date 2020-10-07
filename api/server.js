@@ -15,39 +15,19 @@ require('dotenv').config()
 
 const app = express();
 
+// initializePassport(passport)
 
-initializePassport(passport)
 
-
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
     
-}))
-app.use(passport.initialize())
-app.use(passport.session())
+// }))
+// app.use(passport.initialize())
+// app.use(passport.session())
 
-// const ws = createServer((req, res) => {
-//     res.writeHead(400)
-//     res.end()
-// })
 
-// ws.listen(4000, () => console.log('websocket listening on port ', 4001))
-
-// const subscriptionServer = SubscriptionServer.create({
-//     schema: schema,
-//     execute,
-//     subscribe,
-//     onConnect: () => console.log('client connected')
-
-// }, { server: ws, path: '/graphql' })
-
-app.use('/graphql',cors({ origin: "http://localhost:3000", credentials: true }), graphqlHTTP({
-    schema,
-    graphiql: true,
-}))
-app.use(cors())
 
 app.get("/", async (req,res) => {
     // await sequelize.models.message.sync({force: true})
@@ -59,40 +39,27 @@ app.get("/", async (req,res) => {
     // await sequelize.models.post.sync({alter: true})
     res.send("hi")
 })
-const server = createServer(app)
-// server.listen(4000 , ()=> {
-//     console.log("server started")
-//     new SubscriptionServer({
-//         schema,
-//         execute,
-//         subscribe,
-//         onConnect: ()=> console.log("client Connected")
-//     },{
-//         server,
-//         path: '/subscriptions'
-//     })
-// })
 
-app.listen(4000, () => console.log('http server listening on ', 4000))
-// const PORT = 4000;
-// // const app = express();
+const PORT = 4000;
 
-// app.use('/graphql', bodyParser.json());
 
-// const apolloServer = new ApolloServer({ 
-//     schema: schema, 
-//     context: ({req})=> req ,
-//     playground: {
-//         settings: {
-//           'request.credentials': 'include',
-//         },
-//       }
-// });
-// apolloServer.applyMiddleware({ app, path: '/graphql' });
+app.use('/graphql', bodyParser.json());
 
-// const server = createServer(app);
-// apolloServer.installSubscriptionHandlers(server)
-// server.listen(PORT, () => {
-//     console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
-//     console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
-//   })
+const apolloServer = new ApolloServer({ 
+    cors: false,
+    schema: schema, 
+    context: ({req})=> req ,
+    playground: {
+        settings: {
+          'request.credentials': 'include',
+        },
+      }
+});
+apolloServer.applyMiddleware({ app, path: '/graphql', cors:{origin: "http://localhost:3000", credentials: true} });
+
+const server = createServer(app);
+apolloServer.installSubscriptionHandlers(server)
+server.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+    console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
+  })

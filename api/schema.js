@@ -561,6 +561,7 @@ const RootQuery = new GraphQLObjectType({
                 skip: {type: GraphQLInt}
             },
             resolve(root, {first, skip}){
+                console.log("posts")
                 return sequelize.models.post.findAll({order: [['createdAt', "DESC"]], limit: first, offset: skip})
             }
         },
@@ -689,7 +690,7 @@ const Subscription = new GraphQLObjectType({
     fields: ()=>({
         newMessage: {
             type: MessageType,
-            subscriber: () => pubsub.asyncIterator(['newMessage'])
+            subscribe: () => pubsub.asyncIterator(['newMessage'])
         }
     })
 })

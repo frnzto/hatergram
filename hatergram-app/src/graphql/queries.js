@@ -170,6 +170,7 @@ export const CHAT_ROOMS = gql`
     query ChatRooms{
         chatRooms{
             id
+            name
             messages{
                 id
                 userId
