@@ -1,15 +1,19 @@
 const express = require("express")
-const { graphqlHTTP }= require("express-graphql")
+const { graphqlHTTP,  }= require("express-graphql")
+import {ApolloServer} from "apollo-server-express"
 const schema =require("./schema")
+import bodyParser from "body-parser"
 import { sequelize } from "./db"
+import { createServer } from 'http'
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import passport from "passport";
 import initializePassport  from "./helpers/passportConfig"
 import session from "express-session"
+import { execute, subscribe} from "graphql"
 const cors = require("cors")
 require('dotenv').config()
 
 const app = express();
-
 
 initializePassport(passport)
 
@@ -23,11 +27,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use('/graphql',cors({ origin: "http://localhost:3000", credentials: true }), graphqlHTTP({
-    schema,
-    graphiql: true
-}))
-app.use(cors())
+
 
 app.get("/", async (req,res) => {
     // await sequelize.models.message.sync({force: true})
@@ -40,4 +40,28 @@ app.get("/", async (req,res) => {
     res.send("hi")
 })
 
-app.listen(4000 , ()=> console.log("server started"))
+const PORT = 4000;
+
+
+app.use('/graphql', bodyParser.json());
+
+const apolloServer = new ApolloServer({ 
+    cors: false,
+    schema: schema, 
+    context: ({req})=> {
+      return req} ,
+    playground: {
+        settings: {
+          "schema.polling.enable": false,
+          'request.credentials': 'include',
+        },
+      }
+});
+apolloServer.applyMiddleware({ app, path: '/graphql', cors:{origin: "http://localhost:3000", credentials: true} });
+
+const server = createServer(app);
+apolloServer.installSubscriptionHandlers(server)
+server.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+    console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
+  })
