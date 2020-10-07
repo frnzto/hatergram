@@ -48,7 +48,9 @@ app.use('/graphql', bodyParser.json());
 const apolloServer = new ApolloServer({ 
     cors: false,
     schema: schema, 
-    context: ({req})=> req ,
+    context: ({req})=> {
+      console.log("contezt")
+      return req} ,
     playground: {
         settings: {
           'request.credentials': 'include',
