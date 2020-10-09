@@ -1,0 +1,33 @@
+.chatbubble__container{
+    margin-top: 10px;
+    padding: 0 10px;
+}
+.chatbubble__currentUser{
+    word-wrap: break-word;
+    width: fit-content;
+    max-width: 200px;
+    padding: 10px;
+    background:red;
+    color:wheat;
+    margin-bottom:10px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    
+    
+}
+.chatbubble__otherUser{
+    word-wrap: break-word;
+    width: fit-content;
+    max-width: 200px;
+    padding: 10px;
+    background:brown;
+    color:wheat;
+    margin-bottom:10px;
+    margin-left:auto;
+    border-top-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    
+}
+

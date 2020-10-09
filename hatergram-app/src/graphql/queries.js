@@ -170,6 +170,7 @@ export const CHAT_ROOMS = gql`
     query ChatRooms{
         chatRooms{
             id
+            name
             messages{
                 id
                 userId
@@ -192,5 +193,20 @@ export const CHAT_ROOMS = gql`
             }
         }
         
+    }
+`
+
+export const ROOM_MESSAGES = gql`
+    query RoomMessages($roomName: String){
+        roomMessages(roomName: $roomName){
+            id
+            chatroom
+            message
+            userId
+            user{
+                id
+                username
+            }
+        }
     }
 `

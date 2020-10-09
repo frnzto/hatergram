@@ -2,8 +2,9 @@ import React from 'react'
 
 import "./ChatRoom.css"
 
-function ChatRoom({room, user}) {
+function ChatRoom({room, user,}) {
     const { firstUserInfo, secondUserInfo, messages}= room
+    
     return (
         <>
         {firstUserInfo.id=== user.id ?
