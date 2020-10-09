@@ -49,7 +49,7 @@ const apolloServer = new ApolloServer({
     cors: false,
     schema: schema, 
     context: ({req})=> {
-      console.log("contezt")
+      console.log(req.headers)
       return req} ,
     playground: {
         settings: {
@@ -57,7 +57,7 @@ const apolloServer = new ApolloServer({
         },
       }
 });
-apolloServer.applyMiddleware({ app, path: '/graphql', cors:{origin: "http://localhost:3000", credentials: true} });
+apolloServer.applyMiddleware({ app, path: '/graphql', cors:{origin: "http://localhost:3000", credentials: true, allowedHeaders: ['Authorization'],exposedHeaders: ['Authorization']} });
 
 const server = createServer(app);
 apolloServer.installSubscriptionHandlers(server)

@@ -25,7 +25,10 @@ export const login=({email, password, req})=>{
                     const token = jwt.sign({id: user.id},"secret")
                     console.log(token)
                     console.log(req.headers)
-                    return resolve(user) 
+                    return resolve({
+                        userId: user.id,
+                        token: token
+                    }) 
                 }else{
                     return reject("Password is not correct") 
                 }

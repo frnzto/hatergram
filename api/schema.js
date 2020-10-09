@@ -342,6 +342,18 @@ const MessageType = new GraphQLObjectType({
     })
 })
 
+const AuthData = new GraphQLObjectType({
+    name:"AuthDataType",
+    fields:()=>({
+        userId:{
+            type: GraphQLInt
+        },
+        token:{
+            type:GraphQLString
+        }
+    })
+})
+
 
 
 const Mutation = new GraphQLObjectType({
@@ -384,7 +396,7 @@ const Mutation = new GraphQLObjectType({
             }
         },
         login : {
-            type: UserType,
+            type: AuthData,
             args:{
                 email:{type: GraphQLString},
                 password: {type: GraphQLString}
@@ -551,6 +563,7 @@ const RootQuery = new GraphQLObjectType({
         user: {
             type: UserType,
             resolve(root, args, req){
+                console.log(req.headers.Authorization)
                 return req.user
             }
         },
