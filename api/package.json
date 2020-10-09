@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^2.18.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -19,6 +20,7 @@
     "express-graphql": "^0.11.0",
     "express-session": "^1.17.1",
     "graphql": "^15.3.0",
+    "graphql-subscriptions": "^1.1.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
