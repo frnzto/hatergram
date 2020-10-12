@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
-import { ROOM_MESSAGES } from '../../graphql/queries'
+import React , {useEffect} from 'react'
+import { NEW_MESSAGE, ROOM_MESSAGES } from '../../graphql/queries'
 import ChatBubble from '../ChatBubble/ChatBubble'
 
 import "./ChatWindow.css"
@@ -8,10 +8,26 @@ import "./ChatWindow.css"
 function ChatWindow({user, closeChatWindow, roomName}) {
     const {data, error, loading, subscribeToMore} = useQuery(ROOM_MESSAGES, {variables: {roomName: roomName}})
     const subscribeToMoreMessages= ()=>subscribeToMore({
-        document: ROOM_MESSAGES,
-        
+        document: NEW_MESSAGE,
+        updateQuery: (prev, { subscriptionData }) => {
+            if (!subscriptionData.data) return prev;
+            console.log(subscriptionData)
+            console.log("Prev", prev)
+            const newFeedItem = subscriptionData.data.newMessage;
+            return Object.assign({}, prev, {
+                roomMessages: {
+                comments: [newFeedItem, prev.roomMessages]
+              }
+            })   
+        }
     })
-        
+    
+    useEffect(() => {
+        subscribeToMoreMessages()
+    }, [])
+    
+
+
     
     return (
         <div className="chatwindow__container">

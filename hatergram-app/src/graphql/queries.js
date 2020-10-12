@@ -210,3 +210,17 @@ export const ROOM_MESSAGES = gql`
         }
     }
 `
+export const NEW_MESSAGE = gql`
+    subscription NewMessage{
+        newMessage{
+            id
+            chatroom
+            message
+            userId
+            user{
+                id
+                username
+            }
+        }
+    }
+`
