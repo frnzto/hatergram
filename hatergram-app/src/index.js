@@ -7,6 +7,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import {WebSocketLink} from "@apollo/client/link/ws"
 import { BrowserRouter as Router } from "react-router-dom"
 import { typePolicies } from "./graphql/typePorlicies"
+import {setContext} from "@apollo/client/link/context"
 
 //config for cookies from backend to fronetnd
 
@@ -17,9 +18,22 @@ const wsLink = new WebSocketLink({
   }
 })
 
+const authLink = setContext((_,prevContext)=>{
+
+
+  return {
+    headers: {
+      ...prevContext.headers ,
+      authorization: cookies.
+    }
+  }
+})
+
 const link = createHttpLink({
   uri: 'http://localhost:4000/graphql',
-  credentials: 'include'
+  credentials: 'include',
+  
+
 });
 
 const client = new ApolloClient({
