@@ -8,12 +8,18 @@ import NavBar from './components/NavBar/NavBar';
 import Posts from './components/Posts/Posts';
 import {POSTS_FOLLOWED, USER, PAGINATE_POSTS} from "./graphql/queries"
 import UserInfo from './components/UserInfo/UserInfo';
+import { useEffect } from 'react';
 
 
 function App() {
   const {loading, error, data}= useQuery(USER)
   let user= null
   
+  // useEffect(()=>{
+  //   document.documentElement.style.cssText="--form-main-color: red"
+  // })
+
+
   if(loading){return <div>Loading...</div>}
   if(error){return <div>{error}</div>}
   if(data.user === null){

@@ -19,7 +19,6 @@ function Login({user, history}) {
 
     const handleLogin=(e)=>{
         e.preventDefault()
-        console.log(e)
         if(email.length === 0){return setErrors("Email Required")}
         setErrors("")
         if(password.length === 0){return setErrors("Password Required")}

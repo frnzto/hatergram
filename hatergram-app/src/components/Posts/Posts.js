@@ -23,7 +23,6 @@ function Posts({user, query}) {
     if(loading){return <div>Loading...</div>}
    
     if(data && query === POSTS_FOLLOWED){
-        console.log(data)
         
         const onLoadMore =()=>{
             if(!data.postsFollowed.pageInfo.hasNextPage){

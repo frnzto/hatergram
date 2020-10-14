@@ -687,6 +687,16 @@ const RootQuery = new GraphQLObjectType({
             resolve(root, {roomName}){
                 return sequelize.models.message.findAll({where: {chatroom: roomName}})
             }
+        },
+
+        chatRoomByName:{
+            type: ChatRoomType,
+            args:{
+                chatRoomName: {type: GraphQLString}
+            },
+            resolve(root, { chatRoomName }, req){
+                return sequelize.models.chatroom.findOne({where: {name: chatRoomName}})
+            }
         }
         
         

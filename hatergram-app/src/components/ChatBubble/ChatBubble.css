@@ -7,10 +7,12 @@
     width: fit-content;
     max-width: 200px;
     padding: 10px;
-    background:red;
-    color:wheat;
+    background-color:var(--form-main-color);
+    color:var(--white-color);
     margin-bottom:10px;
-    border-top-right-radius: 12px;
+    margin-left:auto;
+    
+    border-top-left-radius: 12px;
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
     
@@ -21,11 +23,11 @@
     width: fit-content;
     max-width: 200px;
     padding: 10px;
-    background:brown;
-    color:wheat;
+    background-color: var(--text-color);
+    color:var(--white-color);
     margin-bottom:10px;
-    margin-left:auto;
-    border-top-left-radius: 12px;
+    margin-right:auto;
+    border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
     

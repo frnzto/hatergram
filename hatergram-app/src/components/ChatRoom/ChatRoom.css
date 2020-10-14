@@ -29,4 +29,14 @@
 
 .chatroom__username{
     font-weight: 600;
+    
 }
+.span{
+    width: 25ch;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+
+
+

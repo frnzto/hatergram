@@ -108,3 +108,12 @@ mutation AddUser($username: String!, $email: String!, $password: String!) {
     }
 }
 `
+
+export const ADD_MESSAGE = gql`
+    mutation AddMessage($secondUser: String, $secondUserId: Int, $message: String){
+        addMessage(secondUser: $secondUser, secondUserId: $secondUserId, message: $message){
+            id
+            
+        }
+    }
+`

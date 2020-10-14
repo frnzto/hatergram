@@ -9,7 +9,7 @@ import "./Messages.css"
 
 function Messages({user}) {
     const messagesRef = useRef()
-    const [chatRooms,{loading, error, data}] = useLazyQuery(CHAT_ROOMS)
+    const [chatRooms,{data}] = useLazyQuery(CHAT_ROOMS)
     const [chat, setChat]= useState([])
     const toggleMessages = ()=>{
         const node= ReactDOM.findDOMNode(messagesRef.current)
@@ -32,7 +32,6 @@ function Messages({user}) {
         
     }
 
-    console.log(chat)
     return (
         <div className="messages__container">
             <i onClick={()=>{toggleMessages(); chatRooms()}} id="messages__button" className="far fa-envelope"></i>
@@ -52,7 +51,7 @@ function Messages({user}) {
                         </div>
                 }
                
-            {chat.map((res, i)=> <ChatWindow user={user} key={i}roomName={res} closeChatWindow={closeChatWindow}/>)}
+            {chat.map((res, i)=> <ChatWindow  user={user} key={i}roomName={res} closeChatWindow={closeChatWindow}/>)}
         </div>
     )
 }

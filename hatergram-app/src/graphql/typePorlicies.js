@@ -30,6 +30,9 @@ export const typePolicies = {
         commentsById:{
           
           merge:false
+        },
+        roomMessages:{
+          merge:false
         }
       },
     },

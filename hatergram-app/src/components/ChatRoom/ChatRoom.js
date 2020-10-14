@@ -13,9 +13,9 @@ function ChatRoom({room, user,}) {
                         <div className="chatroom__username_message">
                             <span className="chatroom__username">{secondUserInfo.username}</span>
                             {messages[messages.length -1].userId === user.id ?
-                                <span>You: {messages[messages.length -1 ].message}</span>
+                                <span className="span">You: {messages[messages.length -1 ].message}</span>
                                 :
-                                <span>{messages[messages.length -1 ].message}</span>
+                                <span className="span">{messages[messages.length -1 ].message}</span>
                             }
                         </div>   
             </div>
@@ -25,9 +25,9 @@ function ChatRoom({room, user,}) {
                     <div className="chatroom__username_message">
                         <span className="chatroom__username">{firstUserInfo.username}</span>
                         {messages[messages.length -1].userId === user.id ?
-                            <span>You: {messages[messages.length -1 ].message}</span>
+                            <span className="span">You: {messages[messages.length -1 ].message}</span>
                             :
-                            <span>{messages[messages.length -1 ].message}</span>
+                            <span className="span">{messages[messages.length -1 ].message}</span>
                         }
                     </div>   
             </div>

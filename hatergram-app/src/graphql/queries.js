@@ -224,3 +224,32 @@ export const NEW_MESSAGE = gql`
         }
     }
 `
+
+export const CHAT_ROOM_BY_NAME = gql`
+    query ChatRoomByName($chatRoomName: String){
+        chatRoomByName(chatRoomName: $chatRoomName){
+            id
+            name
+            messages{
+                id
+                userId
+                message
+                user{
+                    id
+                    username
+                    avatar
+                }
+            }
+            firstUserInfo{
+                id
+                username
+                avatar
+            }
+            secondUserInfo{
+                id
+                username
+                avatar
+            }
+        }
+    }
+`
