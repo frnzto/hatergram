@@ -34,3 +34,7 @@
 .messages__hide {
     display:none;
 }
+
+.messages_chatwindow{
+    display: flex;
+}

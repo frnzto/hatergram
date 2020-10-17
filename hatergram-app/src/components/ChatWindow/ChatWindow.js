@@ -8,13 +8,16 @@ import "./ChatWindow.css"
 import { ADD_MESSAGE } from '../../graphql/mutations'
 
 function ChatWindow({user, closeChatWindow, roomName}) {
-    const [message, setMessage]= useState("")
     const {data: data2, loading: loading2}=useQuery(CHAT_ROOM_BY_NAME, {variables:{chatRoomName: roomName}})
     const {data, loading, subscribeToMore} = useQuery(ROOM_MESSAGES, {variables: {roomName: roomName}})
+    const [message, setMessage]= useState("")
     const secondUser = loading2 ? null: data2.chatRoomByName.secondUserInfo.username
     const secondUserId = loading2 ? null: data2.chatRoomByName.secondUserInfo.id
     const firstUser = loading2 ? null: data2.chatRoomByName.firstUserInfo.username
     const firstUserId =loading2 ? null: data2.chatRoomByName.firstUserInfo.id
+    const avatar = loading2 ? null: (user.id === secondUserId ?  data2.chatRoomByName.firstUserInfo.avatar : data2.chatRoomByName.secondUserInfo.avatar )
+    const chatBox= useRef()
+
     const [addMessage] = useMutation(ADD_MESSAGE,{
         variables: {
            secondUser: user.id === secondUserId ? firstUser : secondUser,
@@ -30,8 +33,6 @@ function ChatWindow({user, closeChatWindow, roomName}) {
             setMessage("")
         }
     }
-    const chatBox= useRef()
-    const chatSecondUsername= roomName.split(`${user.username}`).join("")
     const subscribeToMoreMessages= useCallback(()=>subscribeToMore({
         document: NEW_MESSAGE,
         updateQuery: (prev, { subscriptionData }) => {
@@ -67,8 +68,8 @@ function ChatWindow({user, closeChatWindow, roomName}) {
         <div className="chatwindow__container">
             <div className="chatwindow__header">
                 <div>
-                    <img src="" alt=""/>
-                    <h3>{chatSecondUsername}</h3>
+                    <img src={avatar} alt=""/>
+                    <h3>{user.id === secondUserId ? firstUser: secondUser}</h3>
                 </div>
                 <i onClick={()=> closeChatWindow(roomName)} className="fas fa-times"></i>
             </div>

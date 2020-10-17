@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { memo }from 'react'
 
 import "./ChatRoom.css"
 
@@ -36,4 +36,4 @@ function ChatRoom({room, user,}) {
     )
 }
 
-export default ChatRoom
+export default  memo(ChatRoom)

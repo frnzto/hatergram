@@ -8,6 +8,8 @@ import { BrowserRouter as Router } from "react-router-dom"
 import { typePolicies } from "./graphql/typePorlicies"
 import {WebSocketLink} from "@apollo/client/link/ws"
 import { getMainDefinition } from '@apollo/client/utilities'
+import {Provider} from "react-redux"
+import store from "./reduxStore"
 
 //config for cookies from backend to fronetnd
 const httpLink = createHttpLink({
@@ -49,7 +51,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <Router>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </Router>
     </ApolloProvider>
   </React.StrictMode>,

@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp/SignUp"
 import { Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Posts from './components/Posts/Posts';
+import ChatContainer from "./components/ChatContainer/ChatContainer"
 import {POSTS_FOLLOWED, USER, PAGINATE_POSTS} from "./graphql/queries"
 import UserInfo from './components/UserInfo/UserInfo';
 import { useEffect } from 'react';
@@ -42,6 +43,7 @@ function App() {
   
         <div className="App">
           <NavBar user={user}/>
+          <ChatContainer user={user}/>
           <Switch>
             <Route exact path="/posts"  render={(props)=>{
               return <Posts {...props} query={PAGINATE_POSTS}  user={user}/>}}/>
