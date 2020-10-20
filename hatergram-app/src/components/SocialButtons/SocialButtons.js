@@ -7,7 +7,7 @@ import { hateCacheUpdate } from '../../graphql/cacheUpdate'
 import "./SocialButtons.css"
 
 function SocialButtons({postId, checkIfHated, focusRef, toggleComments, lazyComments}) {
-    const [hatesAdd] = useMutation(HATES_ADD,hateCacheUpdate({gql}))
+    const [hatesAdd] = useMutation(HATES_ADD, hateCacheUpdate({gql}))
     const focusInput = ()=>{
       focusRef.current.focus()
   }

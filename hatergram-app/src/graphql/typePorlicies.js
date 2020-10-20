@@ -19,7 +19,6 @@ export const typePolicies = {
           merge:false
         },
         postsFollowed:{
-          
           merge:false
         },
         

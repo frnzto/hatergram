@@ -697,7 +697,8 @@ const RootQuery = new GraphQLObjectType({
             resolve(root, { chatRoomName }, req){
                 return sequelize.models.chatroom.findOne({where: {name: chatRoomName}})
             }
-        }
+        },
+        
         
         
     }) 

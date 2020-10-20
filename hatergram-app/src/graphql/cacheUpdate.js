@@ -125,7 +125,7 @@ export const hateCacheUpdate = ({gql})=>(
                   const newPostRef = cache.writeFragment({
                     data: hatesAdd,
                     fragment: gql`
-                        fragment newHate on paginatePosts {
+                        fragment newHate on PaginatePosts {
                             hates{
                                 id
                                 userId
@@ -136,18 +136,23 @@ export const hateCacheUpdate = ({gql})=>(
                   });
                   return [existingHates, newPostRef];
                 },
+                
                 postsFollowed(existingPostsFollowed= []) {
                   const newPostsFollowed = cache.writeFragment({
                     data: hatesAdd,
                     fragment: gql`
                       fragment newPostsFollowed on PostsFollowed{
-                        id
+                            hates{
+                                id
+                                userId
+                                postId
+                            }
                       }
                     `
                   });
                   return [ existingPostsFollowed, newPostsFollowed]
                 }
-              }
+              },
             });
           }
     }

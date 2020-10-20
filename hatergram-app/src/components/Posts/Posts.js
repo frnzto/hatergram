@@ -21,14 +21,12 @@ function Posts({user, query}) {
 
     if(error){return alert(error)}
     if(loading){return <div>Loading...</div>}
-   
+    console.log(data)
     if(data && query === POSTS_FOLLOWED){
-        
         const onLoadMore =()=>{
             if(!data.postsFollowed.pageInfo.hasNextPage){
                 return
             }
-            console.log(data.postsFollowed.edges.length)
             setIsFetching(false)
             
             fetchMore({
@@ -74,7 +72,6 @@ function Posts({user, query}) {
             </div>
         )
     }
-
     if(data && query === PAGINATE_POSTS){
         const onLoadMore = ()=>{
             if(!data.paginatePosts.pageInfo.hasNextPage){
@@ -83,12 +80,13 @@ function Posts({user, query}) {
             setIsFetching(false)
             
             fetchMore({
-                query:PAGINATE_POSTS,
                 variables: {cursor: data.paginatePosts.pageInfo.endCursor},
                 updateQuery:(previousResult, {fetchMoreResult})=>{
                     if(fetchMoreResult.paginatePosts === null){ return}
+                    console.log(previousResult)
                     const newEdges = fetchMoreResult.paginatePosts.edges
                     const pageInfo = fetchMoreResult.paginatePosts.pageInfo
+                    console.log(newEdges)
                     return newEdges.length
                         ? {
                             paginatePosts: {

@@ -7,7 +7,6 @@ export const chatSlice = createSlice({
     },
     reducers:{
         openChat: (state,action)=> {
-            console.log(state.rooms.includes(action.payload))
             if(state.rooms.includes(action.payload)){
                 return
             }

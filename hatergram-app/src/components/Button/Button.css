@@ -11,6 +11,8 @@
     outline:none;
     cursor: pointer;
     transition: 0.3s ease;
+    margin-right: 5px;
+
 }
 
 .btn__large{

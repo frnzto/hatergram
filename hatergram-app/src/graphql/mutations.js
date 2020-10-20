@@ -32,8 +32,8 @@ export const HATES_ADD=gql`
     mutation Hates_Add($postId: Int){
         hatesAdd(postId: $postId){
             id
+            userId
             postId
-            
         }
     }
 `
