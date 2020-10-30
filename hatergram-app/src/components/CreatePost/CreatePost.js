@@ -27,12 +27,13 @@ const customStyles = {
       minWidth              : "400px",
       marginRight           : '-50%',
       borderRadius          : "12px",
-      backgroundColor       : "#acdbdf",
+      backgroundColor       : localStorage.getItem("DarkMode") === "true" ? "#242526" : "#acdbdf",
       transform             : 'translate(-50%, -50%)',
     }
   };
 
 function CreatePost({username, userId}) {
+    const [checkTheme, setChangeTheme] = useState(localStorage.getItem("DarkMode") === "true" ? true : false)
     const [caption, setCaption] = useState("")
     const [modalOpen, setModalOpen] = useState(false)
     const [image, setImage]= useState(null)

@@ -96,11 +96,6 @@ export const POSTS_FOLLOWED = gql`
                         username
                         avatar
                     }
-                    hates{
-                        id
-                        userId
-                        postId
-                    }
                     comments{
                         id
                         
@@ -147,11 +142,7 @@ export const PAGINATE_POSTS = gql`
                         username
                         avatar
                     }
-                    hates{
-                        id
-                        userId
-                        postId
-                    }
+                    
                     comments{
                         id
                         

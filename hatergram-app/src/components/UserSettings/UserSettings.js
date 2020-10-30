@@ -2,6 +2,7 @@ import React, { useState }from 'react'
 import Modal from "react-modal"
 import { useMutation} from "@apollo/client"
 import { v4 as uuidv4 } from 'uuid';
+import DarkModeToggler from "../DarkModeToggler/DarkModeToggler"
 
 import { USER_UPDATE } from "../../graphql/mutations"
 import handleUserUpdate from "../../functions/handleUserUpdate"
@@ -24,7 +25,7 @@ const customStyles = {
       minWidth              : "400px",
       marginRight           : '-50%',
       borderRadius          : "12px",
-      backgroundColor       : "#acdbdf",
+      backgroundColor       : localStorage.getItem("DarkMode") === "true" ? "#242526" : "#acdbdf",
       transform             : 'translate(-50%, -50%)',
     }
   };
@@ -59,6 +60,7 @@ function UserSettings({matchId, avatar, username}) {
                     <div className="cretepost__wrapper">
                         <progress value={progress} max="100"></progress>
                         <h2>User Settings</h2>
+                        <div className="createpost__darkmode"><span>Dark Theme :</span> <DarkModeToggler/></div>
                         <textarea onChange={(e)=>setAbout(e.target.value)} className="createpost__input" name="" id="" cols="60" rows="5" placeholder="Say something about you..."></textarea>
                         <input type="file" id="createpost__file" accept="image/*" onChange={handleImage} />
                         <label id="createpost__label" htmlFor="createpost__file">

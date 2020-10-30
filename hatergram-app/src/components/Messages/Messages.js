@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
-import React , { useRef, useState } from 'react'
+import React , { useRef } from 'react'
 import ReactDOM from "react-dom"
 import { CHAT_ROOMS } from '../../graphql/queries'
 import ChatRoom from '../ChatRoom/ChatRoom'

@@ -11,6 +11,8 @@
     margin-right:5px
 }
 .createComment_container input{
+    background-color: var(--white-color);
+    color: var(--comments-text-color);
     width:100%;
     border-radius: 12px;
     border:none;

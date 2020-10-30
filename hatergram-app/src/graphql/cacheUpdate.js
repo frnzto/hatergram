@@ -1,3 +1,4 @@
+
 export const followUnfollowCacheUpdate = ({gql, matchId})=>(
     {
         update(cache, {data: {followUnfollow} }){
@@ -116,42 +117,25 @@ export const addCommentCacheUpdate =({gql})=>(
     }
 )
 
-export const hateCacheUpdate = ({gql})=>(
-    {
+export const hateCacheUpdate = ({gql, postId})=>(
+    {   
         update(cache, { data: { hatesAdd } }) {
             cache.modify({
               fields: {
-                paginatePosts(existingHates= []) {
-                  const newPostRef = cache.writeFragment({
-                    data: hatesAdd,
-                    fragment: gql`
-                        fragment newHate on PaginatePosts {
-                            hates{
-                                id
-                                userId
-                                postId
-                            }
-                        }
-                        `
-                  });
-                  return [existingHates, newPostRef];
+                hates(existingHates= []) {
+                //   const newPostRef = cache.writeFragment({
+                //     data: hatesAdd,
+                //     fragment: gql`
+                //         fragment newHate on Hates {
+                //             hates{
+                //                 id
+                //                 userId
+                //                 postId
+                //             }
+                //         }
+                //         `
+                //   });
                 },
-                
-                postsFollowed(existingPostsFollowed= []) {
-                  const newPostsFollowed = cache.writeFragment({
-                    data: hatesAdd,
-                    fragment: gql`
-                      fragment newPostsFollowed on PostsFollowed{
-                            hates{
-                                id
-                                userId
-                                postId
-                            }
-                      }
-                    `
-                  });
-                  return [ existingPostsFollowed, newPostsFollowed]
-                }
               },
             });
           }

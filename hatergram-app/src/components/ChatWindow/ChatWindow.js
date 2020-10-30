@@ -11,12 +11,17 @@ function ChatWindow({user, closeChatWindow, roomName}) {
     const {data: data2, loading: loading2}=useQuery(CHAT_ROOM_BY_NAME, {variables:{chatRoomName: roomName}})
     const {data, loading, subscribeToMore} = useQuery(ROOM_MESSAGES, {variables: {roomName: roomName}})
     const [message, setMessage]= useState("")
+    const [minimizeMaximizeChat, setMinimizeMaximizeChat]= useState(true)
     const secondUser = loading2 ? null: data2.chatRoomByName.secondUserInfo.username
     const secondUserId = loading2 ? null: data2.chatRoomByName.secondUserInfo.id
     const firstUser = loading2 ? null: data2.chatRoomByName.firstUserInfo.username
     const firstUserId =loading2 ? null: data2.chatRoomByName.firstUserInfo.id
     const avatar = loading2 ? null: (user.id === secondUserId ?  data2.chatRoomByName.firstUserInfo.avatar : data2.chatRoomByName.secondUserInfo.avatar )
     const chatBox= useRef()
+
+    const minimizeChat= ()=>{
+        setMinimizeMaximizeChat(prevState=> !prevState)
+    }
 
     const [addMessage] = useMutation(ADD_MESSAGE,{
         variables: {
@@ -71,12 +76,15 @@ function ChatWindow({user, closeChatWindow, roomName}) {
                     <img src={avatar} alt=""/>
                     <h3>{user.id === secondUserId ? firstUser: secondUser}</h3>
                 </div>
+                <div>
+                <i onClick={minimizeChat} className="fas fa-window-minimize"></i>
                 <i onClick={()=> closeChatWindow(roomName)} className="fas fa-times"></i>
+                </div>
             </div>
-            <div ref={chatBox} className="chatwindow__chatbox">
-                {loading ? <div>Loading.. </div>: (data.roomMessages.map(message=> <ChatBubble key={message.id} user={user} message={message}/>))}
+            <div ref={chatBox} className={minimizeMaximizeChat ? "chatwindow__chatbox": "chatwindow__chatbox hideChat"}>
+                {loading ? <div>Loading.. </div>: (data.roomMessages.map(message=> <ChatBubble  key={message.id} user={user} message={message}/>))}
             </div>
-            <input onKeyPress={submitMessage}  onChange={(e)=>setMessage(e.target.value)} value={message} className="chatwindow__input" type="text" placeholder="Aa"/>
+            <input  onKeyPress={submitMessage}  onChange={(e)=>setMessage(e.target.value)} value={message} className={minimizeMaximizeChat ? "chatwindow__input": "chatwindow__input hideChat"}  type="text" placeholder="Aa"/>
         </div>
         
     )

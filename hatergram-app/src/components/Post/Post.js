@@ -1,7 +1,7 @@
 import React , {useRef , createRef} from 'react'
 import ReactDOM from "react-dom"
 import { Link } from 'react-router-dom'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { storage } from "../../firebase"
 
 import defaultAvatar from "../../static/icons/user.png"
@@ -10,7 +10,7 @@ import Comment from "../Comment/Comment"
 import CreateComment from '../CreateComment/CreateComment'
 import {DELETE_POST, HATES_DELETE, COMMENTS_DELETE} from '../../graphql/mutations'
 import { deletePostCacheUpdate } from '../../graphql/cacheUpdate'
-import { COMMENTS_BY_ID } from "../../graphql/queries"
+import { COMMENTS_BY_ID, HATES } from "../../graphql/queries"
 
 import "./Post.css"
 import Button from '../Button/Button'
@@ -20,11 +20,12 @@ import Button from '../Button/Button'
 function Post({caption, image, username, postAvatar, userAvatar, hates, postId, currentUser, postOwner, comments }) {
     const inputRef= createRef()
     const commentsRef = useRef()
+    const {data: hatesData, loading: hatesLoading}= useQuery(HATES,{ variables:{postId}})
     const [hatesDelete]= useMutation(HATES_DELETE)
     const [commentsDelete]= useMutation(COMMENTS_DELETE)
     const [deletePost]=useMutation(DELETE_POST, deletePostCacheUpdate())
     const [commentsById,{loading, data, fetchMore}] = useLazyQuery(COMMENTS_BY_ID, {variables: {postId: postId}})
-    const checkIfHated = hates.filter(hate=> hate.userId === currentUser.id)
+    const checkIfHated = hatesLoading ? 0 : hatesData.hates.filter(hate=> hate.userId === currentUser.id)
     const handleDelete = async()=>{
         const imageUrl = image
         await storage.refFromURL(imageUrl).delete()
@@ -68,7 +69,7 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
                 
                 <div>
                    <Link to={`/users/${postOwner.id}`}><img className="post__avatar" src={postAvatar ? postAvatar : defaultAvatar} alt=""/></Link> 
-                    <h3>{username}</h3>
+                    <h3 className="post__username">{username}</h3>
                 </div>
                 <h2>{caption}</h2>
             </div>
@@ -76,7 +77,7 @@ function Post({caption, image, username, postAvatar, userAvatar, hates, postId, 
                 <img className="post__image" src={image} alt=""/>
             </div>
             <div className="post__likesbox">
-                <p>hates: {hates.length}</p>
+                <p>hates: {hatesLoading ? null : hatesData.hates.length}</p>
                 <p onClick={comments.length ? toggleComments: null} className="post__commentsCount">comments: {comments.length}</p>
             </div>
             <SocialButtons focusRef={inputRef} lazyComments={commentsById}  toggleComments={toggleComments} checkIfHated={checkIfHated} postId={postId} />

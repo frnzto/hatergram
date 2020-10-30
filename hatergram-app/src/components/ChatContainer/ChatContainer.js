@@ -1,6 +1,6 @@
 import React from 'react'
 import {useDispatch, useSelector} from "react-redux"
-import {selectRooms, openChat, closeChat} from "../../redux/chatSlice"
+import {selectRooms, closeChat} from "../../redux/chatSlice"
 import ChatWindow from '../ChatWindow/ChatWindow';
 
 import "./ChatContainer.css"
@@ -16,7 +16,7 @@ function ChatContainer({user}) {
 
     return (
         <div className="chatContainer__chatWindwos">
-            {chatRooms.map((room, i) =><ChatWindow key={i} roomName={room} user={user} closeChatWindow={closeChatWindow}  />)}
+            {chatRooms.map((room,i) =><ChatWindow key={i} roomName={room} user={user} closeChatWindow={closeChatWindow}  />)}
         </div>
     )
 }

@@ -36,7 +36,7 @@
 /* HATE BUTTON */
 
 .socialbuttons__button_hate{
-    color:var(--text-color);
+    color:var(--logo-color);
     background-color: var(--form-main-color);
     width:100%;
     padding:15px 5px;
@@ -65,7 +65,7 @@
 }
 
 .socialbutton__button_activeHate{
-    background-color: var(--text-color);
+    background-color: transparent;
     width:100%;
     padding:15px 5px;
     border:none;
@@ -75,7 +75,7 @@
     cursor: pointer;
     outline:none;
     transition: 0.3s ease;
-    color: var(--logo-color);
+    color: var(--text-color-hated);
     margin-right:5px
 }
 
@@ -93,17 +93,17 @@
 
 .socialbutton__button_activeHate:hover::before{
     content:"Unhate???";
-    color: var(--text-color);
+    color: var(--text-color-hated);
     
 }
 .socialbutton__button_activeHate:hover{
-    background-color: var(--logo-color);
+    background-color: var(--form-main-color-hover);
 }
 
 /* LIKE BUTTON */
 
 .socialbuttons__button_like{
-    color:var(--text-color);
+    color:var(--logo-color);
     background-color: var(--form-main-color);
     width:100%;
     padding:15px 5px;
@@ -133,7 +133,7 @@
 /* COMMENT BUTTON */
 
 .socialbuttons__button_comment{
-    color:var(--text-color);
+    color:var(--logo-color);
     background-color: var(--form-main-color);
     width:100%;
     padding:15px 5px;

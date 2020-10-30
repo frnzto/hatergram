@@ -21,7 +21,6 @@ function Posts({user, query}) {
 
     if(error){return alert(error)}
     if(loading){return <div>Loading...</div>}
-    console.log(data)
     if(data && query === POSTS_FOLLOWED){
         const onLoadMore =()=>{
             if(!data.postsFollowed.pageInfo.hasNextPage){

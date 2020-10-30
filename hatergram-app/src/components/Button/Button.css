@@ -5,7 +5,7 @@
     min-width: 150px;
     padding:10px 40px;
     margin-top: 5px;
-    color: var(--white-color);
+    color: var(--white-color-button);
     font-size: medium;
     font-weight: 600;
     outline:none;
@@ -21,7 +21,8 @@
 }
 
 .btn__follow:hover{
-    background-color: var(--form-main-color-hover)
+    background-color: var(--form-main-color-hover);
+    color: var(--comments-text-color);
 }
 
 .btn__mb{

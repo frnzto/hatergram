@@ -28,6 +28,7 @@
 
 .navbar__avatar:hover{
     opacity: 0.85;
+    box-shadow: 0 0 15px var(--white-color);
     
 }
 

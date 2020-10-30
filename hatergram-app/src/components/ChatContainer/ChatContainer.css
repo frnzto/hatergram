@@ -1,5 +1,8 @@
-.chatContainer__chatWindwos{
-    display:flex;
+.chatContainer__chatWindwos {
+    display: flex;
+    align-items: flex-end;
     position: fixed;
-    bottom:0
+    bottom:0;
+    z-index: 4;
 }
+

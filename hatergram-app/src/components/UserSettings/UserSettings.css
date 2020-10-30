@@ -9,3 +9,14 @@
 .usersettings__icon:hover{
     color: var(--form-main-color)
 }
+
+.createpost__darkmode{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.createpost__darkmode span{
+    color: var(--white-color-button)
+}

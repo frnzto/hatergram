@@ -1,0 +1,31 @@
+.toggler__container{
+    width:50px;
+    height:10px;
+    border-radius: 50px;
+    background-color: cornflowerblue;
+    position: relative;
+
+}
+.toggler__notch {
+    width:30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: yellow;
+    box-shadow: 0 0 10px yellow;
+    position: absolute;
+    bottom:-10px;
+    transition: all 0.3s ease;
+    
+}
+
+.toggler__container.night {
+    background-color: darkblue;
+    translate: all 0.3s ease;
+    
+}
+
+.toggler__notch.night {
+    transform: translateX(100%);
+    background-color: bisque;
+    box-shadow: 0 0 10px bisque
+}

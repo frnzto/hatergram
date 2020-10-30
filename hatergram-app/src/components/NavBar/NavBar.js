@@ -6,20 +6,15 @@ import defaultAvatar from "../../static/icons/user.png"
 import Messages from "../Messages/Messages"
 import CreatePost from '../CreatePost/CreatePost'
 import Logout from "../../components/Logout/Logout"
+import DarkModeToggler from "../DarkModeToggler/DarkModeToggler"
 
 import "./NavBar.css"
 
 function NavBar({user}) {
-    // let root= document.documentElement
-    // const [dark, setDark]= useState(false)
-    // let colorChange = ()=>{
-    //     {dark ? root.style.setProperty('--form-main-color', "black"):(root.style.setProperty('--form-main-color', "#acdbdf"))}
-    //     setDark(prevMode => !prevMode)
-    // }
+    
     if(!user){
         return(
             <div className="navbar">
-                {/* <button onClick={colorChange}>Color</button> */}
                 <Link to="/dashboard">
                     <img className="navbar__img" src={logo} alt=""/>
                 </Link>
